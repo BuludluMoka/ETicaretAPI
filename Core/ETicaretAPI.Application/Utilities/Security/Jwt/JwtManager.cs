@@ -12,7 +12,7 @@ using Core.Entities.Models;
 using Core.Settings;
 
 
-namespace ETicaretAPI.Application.Utilities.Security.Jwt
+namespace OnionArchitecture.Application.Utilities.Security.Jwt
 {
     public class JwtManager : IJwtService
     {

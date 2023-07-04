@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Application.DTOs.Product
+namespace OnionArchitecture.Application.DTOs.Product
 {
     public class ProductDto
     {

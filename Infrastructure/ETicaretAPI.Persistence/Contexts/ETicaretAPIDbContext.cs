@@ -1,5 +1,5 @@
-﻿using ETicaretAPI.Domain.Common;
-using ETicaretAPI.Domain.Entities;
+﻿using OnionArchitecture.Domain.Common;
+using OnionArchitecture.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Persistence.Contexts
+namespace OnionArchitecture.Persistence.Contexts
 {
     public class ETicaretAPIDbContext : DbContext
     {

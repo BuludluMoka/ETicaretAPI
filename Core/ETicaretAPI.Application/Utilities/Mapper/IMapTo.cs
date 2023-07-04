@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace ETicaretAPI.Application.Utilities.Mapper
+namespace OnionArchitecture.Application.Utilities.Mapper
 {
     public interface IMapTo<T>
     {

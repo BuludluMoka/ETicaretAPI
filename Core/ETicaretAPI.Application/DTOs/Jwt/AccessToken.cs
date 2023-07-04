@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Application.DTOs.Jwt
+namespace OnionArchitecture.Application.DTOs.Jwt
 {
     public class AccessToken
     {

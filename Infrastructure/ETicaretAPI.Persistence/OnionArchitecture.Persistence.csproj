@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\ETicaretAPI.Application\ETicaretAPI.Application.csproj" />
+    <ProjectReference Include="..\..\Core\ETicaretAPI.Application\OnionArchitecture.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

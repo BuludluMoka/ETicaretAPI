@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Application.ViewModels.Products;
+﻿using OnionArchitecture.Application.ViewModels.Products;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Application.Validators.Products
+namespace OnionArchitecture.Application.Validators.Products
 {
     public class CreateProductValidator: AbstractValidator<VM_Product_Create>
     {

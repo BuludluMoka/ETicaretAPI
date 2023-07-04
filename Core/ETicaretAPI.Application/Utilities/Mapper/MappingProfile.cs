@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using AutoMapper;
 
-namespace ETicaretAPI.Application.Utilities.Mapper
+namespace OnionArchitecture.Application.Utilities.Mapper
 {
     public class MappingProfile : Profile
     {

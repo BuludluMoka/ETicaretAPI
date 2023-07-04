@@ -1,6 +1,6 @@
-﻿using ETicaretAPI.Application.Repositories;
-using ETicaretAPI.Domain.Common;
-using ETicaretAPI.Persistence.Contexts;
+﻿using OnionArchitecture.Application.Repositories;
+using OnionArchitecture.Domain.Common;
+using OnionArchitecture.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Persistence.Repositories
+namespace OnionArchitecture.Persistence.Repositories
 {
-    public class ReadRepository<TEntity,TContext> : IReadRepository<TEntity> where TEntity : BaseEntity where TContext : DbContext
+    public class ReadRepository<TEntity, Tkey,TContext> : IReadRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey> where TContext : DbContext
     {
         private readonly TContext _context;
         public ReadRepository(TContext context)
@@ -40,12 +40,16 @@ namespace ETicaretAPI.Persistence.Repositories
                 query = Table.AsNoTracking();
            return await query.FirstOrDefaultAsync(method);
         }
-        public async Task<TEntity> GetByIdAsync(string id, bool tracking = true)
+        public async Task<TEntity> GetByIdAsync(Tkey id, bool tracking = true)
         {
             var query = Table.AsQueryable();
             if (!tracking)
                 query = Table.AsNoTracking();
-            return await query.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id)); 
+
+            if (id is Guid)
+                return await query.FirstOrDefaultAsync(data => ((Guid)(object)data.Id).Equals(id));
+            else
+                return  await query.FirstOrDefaultAsync(data => data.Id.Equals(id));
         }
 
     }

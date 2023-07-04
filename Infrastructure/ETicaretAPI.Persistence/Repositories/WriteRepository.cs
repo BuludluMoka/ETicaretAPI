@@ -1,6 +1,6 @@
-﻿using ETicaretAPI.Application.Repositories;
-using ETicaretAPI.Domain.Common;
-using ETicaretAPI.Persistence.Contexts;
+﻿using OnionArchitecture.Application.Repositories;
+using OnionArchitecture.Domain.Common;
+using OnionArchitecture.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -8,10 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace ETicaretAPI.Persistence.Repositories
+namespace OnionArchitecture.Persistence.Repositories
 {
-    public class WriteRepository<TEntity, TContext> : IWriteRepository<TEntity> where TEntity : BaseEntity  where TContext : DbContext
+    public class WriteRepository<TEntity,Tkey ,TContext> : IWriteRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey>  where TContext : DbContext
     {
 
         private readonly TContext _context;
@@ -43,9 +44,14 @@ namespace ETicaretAPI.Persistence.Repositories
             Table.RemoveRange(datas);
             return true;
         }
-        public async Task<bool> RemoveAsync(string id)
+        public async Task<bool> RemoveAsync(Tkey id)
         {
-            TEntity model = await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
+            TEntity model;
+            if (id is Guid)
+                model = await Table.FirstOrDefaultAsync(data => ((Guid)(object)data.Id).Equals(id));
+            else
+                model = await Table.FirstOrDefaultAsync(data => data.Id.Equals(id));
+           
             return Remove(model);
         }
         public bool Update(TEntity model)

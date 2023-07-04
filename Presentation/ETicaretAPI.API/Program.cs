@@ -1,6 +1,6 @@
-using ETicaretAPI.Application.Validators.Products;
-using ETicaretAPI.Infrastructure;
-using ETicaretAPI.Persistence;
+using OnionArchitecture.Application.Validators.Products;
+using OnionArchitecture.Infrastructure;
+using OnionArchitecture.Persistence;
 using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);

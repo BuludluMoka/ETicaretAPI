@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "ETicaretAPI.API": {
+    "OnionArchitecture.API": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

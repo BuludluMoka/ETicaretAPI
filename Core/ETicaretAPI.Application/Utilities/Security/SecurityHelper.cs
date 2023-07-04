@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Application.Utilities.Security
+namespace OnionArchitecture.Application.Utilities.Security
 {
     public class SecurityHelper
     {

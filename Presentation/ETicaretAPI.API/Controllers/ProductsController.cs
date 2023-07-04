@@ -1,13 +1,13 @@
-﻿using ETicaretAPI.Application.Repositories;
-using ETicaretAPI.Application.RequestParameters;
-using ETicaretAPI.Application.Services;
-using ETicaretAPI.Application.ViewModels.Products;
-using ETicaretAPI.Domain.Entities;
+﻿using OnionArchitecture.Application.Repositories;
+using OnionArchitecture.Application.RequestParameters;
+using OnionArchitecture.Application.Services;
+using OnionArchitecture.Application.ViewModels.Products;
+using OnionArchitecture.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace ETicaretAPI.API.Controllers
+namespace OnionArchitecture.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
-namespace ETicaretAPI.Application.Utilities.Auth
+namespace OnionArchitecture.Application.Utilities.Auth
 {
     public class AuthHelper : IAuthHelper
     {

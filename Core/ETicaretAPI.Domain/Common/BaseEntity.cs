@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Domain.Common
+namespace OnionArchitecture.Domain.Common
 {
-    public class BaseEntity
+    public class BaseEntity<Tkey>
     {
-        public Guid Id { get; set; }
+        public Tkey Id { get; set; }
         public DateTime CreatedDate{ get; set; }
         public DateTime UpdatedDate { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Application.Abstractions.Storage;
+﻿using OnionArchitecture.Application.Abstractions.Storage;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Infrastructure.Services.Storage
+namespace OnionArchitecture.Infrastructure.Services.Storage
 {
     public class StorageService : IStorageService
     {

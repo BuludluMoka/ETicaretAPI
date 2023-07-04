@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Application.ViewModels.Products
+namespace OnionArchitecture.Application.ViewModels.Products
 {
     public class VM_Product_Create
     {

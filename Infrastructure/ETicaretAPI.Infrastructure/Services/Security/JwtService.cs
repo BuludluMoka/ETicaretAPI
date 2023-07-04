@@ -7,13 +7,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using ETicaretAPI.Domain.Entities;
-using ETicaretAPI.Application.DTOs.Jwt;
-using ETicaretAPI.Application.Abstractions.Security;
+using OnionArchitecture.Domain.Entities;
+using OnionArchitecture.Application.DTOs.Jwt;
+using OnionArchitecture.Application.Abstractions.Security;
 
-namespace ETicaretAPI.Application.Utilities.Security.Jwt
+namespace OnionArchitecture.Application.Utilities.Security.Jwt
 {
-    public class JwtService : IJwtService
+    public class JwtService : ITokenHandler
     {
         private JwtOptions _jwtOptions;
         public JwtService()

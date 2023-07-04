@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Application.Abstractions.Storage.Local;
+﻿using OnionArchitecture.Application.Abstractions.Storage.Local;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Infrastructure.Services.Storage.Local
+namespace OnionArchitecture.Infrastructure.Services.Storage.Local
 {
     public class LocalStorage : Storage, ILocalStorage
     {

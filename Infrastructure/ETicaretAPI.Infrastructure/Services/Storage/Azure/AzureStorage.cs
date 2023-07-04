@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Application.Abstractions.Storage.Azure;
+﻿using OnionArchitecture.Application.Abstractions.Storage.Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Infrastructure.Services.Storage.Azure
+namespace OnionArchitecture.Infrastructure.Services.Storage.Azure
 {
     public class AzureStorage : Storage, IAzureStorage
     {

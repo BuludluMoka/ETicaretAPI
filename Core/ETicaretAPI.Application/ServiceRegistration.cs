@@ -1,8 +1,8 @@
 ﻿using Core.Application.Utilities.Settings;
 using Core.Utilities.Logging;
 using Core.Utilities.Logging.Loggers;
-using ETicaretAPI.Application.Utilities.Mapper;
-using ETicaretAPI.Application.Utilities.Security.Jwt;
+using OnionArchitecture.Application.Utilities.Mapper;
+using OnionArchitecture.Application.Utilities.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 
-namespace ETicaretAPI.Application
+namespace OnionArchitecture.Application
 {
     public static class ServiceRegistration
     {

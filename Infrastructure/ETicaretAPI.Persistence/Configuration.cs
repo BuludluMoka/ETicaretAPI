@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Persistence
+namespace OnionArchitecture.Persistence
 {
     static class Configuration
     {
@@ -15,7 +15,7 @@ namespace ETicaretAPI.Persistence
             {
                 ConfigurationManager configurationManager = new();
 
-                configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/ETicaretAPI.API"));
+                configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/OnionArchitecture.API"));
                 configurationManager.AddJsonFile("appsettings.json");
                 return configurationManager.GetConnectionString("PostgreSQL");
             }

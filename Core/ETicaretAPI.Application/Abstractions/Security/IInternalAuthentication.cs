@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnionArchitecture.Application.DTOs.Product
+namespace OnionArchitecture.Application.Abstractions.Security
 {
-    public class CreateProductDto
+    public interface IInternalAuthentication
     {
+
     }
 }

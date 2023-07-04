@@ -5,19 +5,28 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{814CBAC2-8BB0-4297-96C7-A4A0F5DA93F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETicaretAPI.Domain", "Core\ETicaretAPI.Domain\ETicaretAPI.Domain.csproj", "{E3B1A311-0A19-417D-B086-7A99F0F062DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnionArchitecture.Domain", "Core\ETicaretAPI.Domain\OnionArchitecture.Domain.csproj", "{E3B1A311-0A19-417D-B086-7A99F0F062DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETicaretAPI.Application", "Core\ETicaretAPI.Application\ETicaretAPI.Application.csproj", "{547808AA-8250-456E-9895-1A76B5B33A6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnionArchitecture.Application", "Core\ETicaretAPI.Application\OnionArchitecture.Application.csproj", "{547808AA-8250-456E-9895-1A76B5B33A6C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{31A9F06E-88A4-4111-BF93-5415FD0BB2A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETicaretAPI.Infrastructure", "Infrastructure\ETicaretAPI.Infrastructure\ETicaretAPI.Infrastructure.csproj", "{6772971D-0F96-4CB1-B312-BB197F0F29A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnionArchitecture.Infrastructure", "Infrastructure\ETicaretAPI.Infrastructure\OnionArchitecture.Infrastructure.csproj", "{6772971D-0F96-4CB1-B312-BB197F0F29A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETicaretAPI.Persistence", "Infrastructure\ETicaretAPI.Persistence\ETicaretAPI.Persistence.csproj", "{ADC86C4F-CF71-43F6-94A4-EE2E5817F727}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnionArchitecture.Persistence", "Infrastructure\ETicaretAPI.Persistence\OnionArchitecture.Persistence.csproj", "{ADC86C4F-CF71-43F6-94A4-EE2E5817F727}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{444846DA-68FD-4ACD-AB0C-AD4FDE3A8EAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETicaretAPI.API", "Presentation\ETicaretAPI.API\ETicaretAPI.API.csproj", "{180D3043-0000-48AB-BC52-0EE364B74F18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnionArchitecture.API", "Presentation\ETicaretAPI.API\OnionArchitecture.API.csproj", "{180D3043-0000-48AB-BC52-0EE364B74F18}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{33CDED3F-1313-4E91-874D-BEC0E1077A38}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soluction Items", "Soluction Items", "{9FCC6CA0-2C65-48A7-AD60-AFE3D9CDB53E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoScripts", "AutoScripts", "{3EC62ED8-5A6F-4102-8527-20C7125BCCEF}"
+	ProjectSection(SolutionItems) = preProject
+		DB-SCAFFOLD-COMMAND.txt = DB-SCAFFOLD-COMMAND.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,11 +59,15 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{814CBAC2-8BB0-4297-96C7-A4A0F5DA93F1} = {33CDED3F-1313-4E91-874D-BEC0E1077A38}
 		{E3B1A311-0A19-417D-B086-7A99F0F062DC} = {814CBAC2-8BB0-4297-96C7-A4A0F5DA93F1}
 		{547808AA-8250-456E-9895-1A76B5B33A6C} = {814CBAC2-8BB0-4297-96C7-A4A0F5DA93F1}
+		{31A9F06E-88A4-4111-BF93-5415FD0BB2A0} = {33CDED3F-1313-4E91-874D-BEC0E1077A38}
 		{6772971D-0F96-4CB1-B312-BB197F0F29A4} = {31A9F06E-88A4-4111-BF93-5415FD0BB2A0}
 		{ADC86C4F-CF71-43F6-94A4-EE2E5817F727} = {31A9F06E-88A4-4111-BF93-5415FD0BB2A0}
+		{444846DA-68FD-4ACD-AB0C-AD4FDE3A8EAA} = {33CDED3F-1313-4E91-874D-BEC0E1077A38}
 		{180D3043-0000-48AB-BC52-0EE364B74F18} = {444846DA-68FD-4ACD-AB0C-AD4FDE3A8EAA}
+		{3EC62ED8-5A6F-4102-8527-20C7125BCCEF} = {9FCC6CA0-2C65-48A7-AD60-AFE3D9CDB53E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15035DA2-39CC-4045-9ED6-F64149B84E69}

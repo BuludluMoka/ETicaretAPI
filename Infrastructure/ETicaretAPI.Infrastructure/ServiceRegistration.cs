@@ -1,5 +1,5 @@
-﻿using ETicaretAPI.Application.Services;
-using ETicaretAPI.Infrastructure.Services;
+﻿using OnionArchitecture.Application.Services;
+using OnionArchitecture.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Infrastructure
+namespace OnionArchitecture.Infrastructure
 {
     public static class ServiceRegistration
     {

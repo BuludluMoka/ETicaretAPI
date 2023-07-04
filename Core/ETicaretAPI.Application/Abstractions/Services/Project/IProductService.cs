@@ -1,11 +1,11 @@
-﻿using ETicaretAPI.Application.DTOs.Product;
+﻿using OnionArchitecture.Application.DTOs.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Application.Abstractions.Services.Project
+namespace OnionArchitecture.Application.Abstractions.Services.Project
 {
     public interface IProductService
     {

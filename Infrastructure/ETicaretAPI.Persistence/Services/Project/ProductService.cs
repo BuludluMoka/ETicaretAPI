@@ -1,13 +1,13 @@
-﻿using ETicaretAPI.Application.Abstractions.Services.Project;
-using ETicaretAPI.Application.DTOs.Product;
-using ETicaretAPI.Application.Repositories;
+﻿using OnionArchitecture.Application.Abstractions.Services.Project;
+using OnionArchitecture.Application.DTOs.Product;
+using OnionArchitecture.Application.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Persistence.Services.Project
+namespace OnionArchitecture.Persistence.Services.Project
 {
     public class ProductService : IProductService
     {

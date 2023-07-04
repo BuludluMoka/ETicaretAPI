@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Application.Abstractions.Storage
+namespace OnionArchitecture.Application.Abstractions.Storage
 {
     public interface IStorageService : IStorage
     {
