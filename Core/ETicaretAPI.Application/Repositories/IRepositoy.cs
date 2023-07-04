@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace ETicaretAPI.Application.Repositories
 {
-    public interface IRepositoy<T> where T : BaseEntity
+    public interface IRepositoy<TEntity> where TEntity : BaseEntity
     {
-        DbSet<T> Table { get; }
+        DbSet<TEntity> Table { get; }
     }
 }

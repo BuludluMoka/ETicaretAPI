@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace ETicaretAPI.Application.Repositories
 {
-    public interface IWriteRepository<T> : IRepositoy<T> where T : BaseEntity
+    public interface IWriteRepository<TEntity> : IRepositoy<TEntity> where TEntity : BaseEntity
     {
-        Task<bool> AddAsync(T model);
-        Task<bool> AddRangeAsync(List<T> datas);
-        bool Remove(T model);
-        bool RemoveRange(List<T> datas);
+        Task<bool> AddAsync(TEntity model);
+        Task<bool> AddRangeAsync(List<TEntity> datas);
+        bool Remove(TEntity model);
+        bool RemoveRange(List<TEntity> datas);
         Task<bool> RemoveAsync(string id);
-        bool Update(T model);
+        bool Update(TEntity model);
         Task<int> SaveAsync();
 
     }

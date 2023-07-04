@@ -1,0 +1,17 @@
+{
+  "AppDbConnectionModel": {
+    "serverName": "localhost",
+    "database": "ETicaretAPIDb",
+    "username": "postgres",
+    "password": "123456",
+    "trustedConnection": false
+  },
+  "JwtOptions": {
+    "Audience": "localhost",
+    "Issuer": "localhost",
+    "AccessTokenExpiration": 500,
+    "SecurityKey": "unibud3g3e3ttn3589",
+    "RefreshTokenSecurityKey": "unibud3g3e3ttn3589"
+  }
+}
+

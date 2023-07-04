@@ -11,43 +11,44 @@ using System.Threading.Tasks;
 
 namespace ETicaretAPI.Persistence.Repositories
 {
-    public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
+    public class WriteRepository<TEntity, TContext> : IWriteRepository<TEntity> where TEntity : BaseEntity  where TContext : DbContext
     {
-        private readonly ETicaretAPIDbContext _context;
-        public WriteRepository(ETicaretAPIDbContext context)
+
+        private readonly TContext _context;
+        public WriteRepository(TContext context)
         {
             _context = context;
         }
-        public DbSet<T> Table => _context.Set<T>();
+        public DbSet<TEntity> Table => _context.Set<TEntity>();
 
-        public async Task<bool> AddAsync(T model)
+        public async Task<bool> AddAsync(TEntity model)
         {
-            EntityEntry<T> entityEntry = await Table.AddAsync(model);
+            EntityEntry<TEntity> entityEntry = await Table.AddAsync(model);
             return entityEntry.State == EntityState.Added;
         }
 
-        public async Task<bool> AddRangeAsync(List<T> datas)
+        public async Task<bool> AddRangeAsync(List<TEntity> datas)
         {
             await Table.AddRangeAsync(datas); 
             return true;
         }
 
-        public bool Remove(T model)
+        public bool Remove(TEntity model)
         {
-            EntityEntry<T> entityEntry = Table.Remove(model);
+            EntityEntry<TEntity> entityEntry = Table.Remove(model);
             return entityEntry.State == EntityState.Deleted;
         }
-        public bool RemoveRange(List<T> datas)
+        public bool RemoveRange(List<TEntity> datas)
         {
             Table.RemoveRange(datas);
             return true;
         }
         public async Task<bool> RemoveAsync(string id)
         {
-            T model = await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
+            TEntity model = await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
             return Remove(model);
         }
-        public bool Update(T model)
+        public bool Update(TEntity model)
         {
             EntityEntry entityEntry = Table.Update(model);
             return entityEntry.State == EntityState.Modified;

@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace ETicaretAPI.Application.Repositories
 {
-    public interface IReadRepository<T> : IRepositoy<T> where T : BaseEntity
+    public interface IReadRepository<TEntity> : IRepositoy<TEntity> where TEntity : BaseEntity
     {
       
-        IQueryable<T> GetAll(bool tracking = true);
-        IQueryable<T> GetWhere(Expression<Func<T, bool>> method, bool tracking = true);
-        Task<T> GetSingleAsync(Expression<Func<T, bool>> method, bool tracking = true);
-        Task<T> GetByIdAsync(string id, bool tracking = true);
+        IQueryable<TEntity> GetAll(bool tracking = true);
+        IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> method, bool tracking = true);
+        Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> method, bool tracking = true);
+        Task<TEntity> GetByIdAsync(string id, bool tracking = true);
 
     }
 }

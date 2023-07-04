@@ -21,7 +21,7 @@ namespace ETicaretAPI.Application.Validators.Products
                     .WithMessage("Məhsul adını 4 ilə 150 hərf arasında girin.");
 
             RuleFor(p => p.Stock)
-                .NotEmpty()
+                .NotEmpty() 
                 .NotNull()
                     .WithMessage("Stok məlumatını boş keçmeyin.")
                 .Must(s => s >= 0)
