@@ -6,12 +6,19 @@
     "password": "123456",
     "trustedConnection": false
   },
-  "JwtOptions": {
+  "JwtConfiguration": {
     "Audience": "localhost",
     "Issuer": "localhost",
     "AccessTokenExpiration": 500,
     "SecurityKey": "unibud3g3e3ttn3589",
     "RefreshTokenSecurityKey": "unibud3g3e3ttn3589"
+  },
+  "MailConfiguration": {
+    "From": "buludlumoka005@gmail.com",
+    "SmtpServer": "smtp.gmail.com",
+    "Port": 465,
+    "Username": "buludlumoka005@gmail.com",
+    "Password": "wbptjzigmyytlqfx"
   }
 }
 

@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoScripts", "AutoScripts"
 		DB-SCAFFOLD-COMMAND.txt = DB-SCAFFOLD-COMMAND.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnionArchitecture.SignalR", "OnionArchitecture.SignalR\OnionArchitecture.SignalR.csproj", "{DCF158CE-8404-4981-9F95-39565742BA74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{180D3043-0000-48AB-BC52-0EE364B74F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{180D3043-0000-48AB-BC52-0EE364B74F18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{180D3043-0000-48AB-BC52-0EE364B74F18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCF158CE-8404-4981-9F95-39565742BA74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCF158CE-8404-4981-9F95-39565742BA74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCF158CE-8404-4981-9F95-39565742BA74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCF158CE-8404-4981-9F95-39565742BA74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +74,7 @@ Global
 		{444846DA-68FD-4ACD-AB0C-AD4FDE3A8EAA} = {33CDED3F-1313-4E91-874D-BEC0E1077A38}
 		{180D3043-0000-48AB-BC52-0EE364B74F18} = {444846DA-68FD-4ACD-AB0C-AD4FDE3A8EAA}
 		{3EC62ED8-5A6F-4102-8527-20C7125BCCEF} = {9FCC6CA0-2C65-48A7-AD60-AFE3D9CDB53E}
+		{DCF158CE-8404-4981-9F95-39565742BA74} = {31A9F06E-88A4-4111-BF93-5415FD0BB2A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15035DA2-39CC-4045-9ED6-F64149B84E69}

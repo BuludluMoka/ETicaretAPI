@@ -1,4 +1,5 @@
-﻿using OnionArchitecture.Domain.Entities;
+﻿using OnionArchitecture.Application.Abstractions.Repositories;
+using OnionArchitecture.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

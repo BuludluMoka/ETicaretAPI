@@ -1,5 +1,4 @@
-﻿using OnionArchitecture.Application.Repositories;
-using OnionArchitecture.Domain.Common;
+﻿using OnionArchitecture.Domain.Common;
 using OnionArchitecture.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using OnionArchitecture.Application.Abstractions.Repositories;
 
 namespace OnionArchitecture.Persistence.Repositories
 {

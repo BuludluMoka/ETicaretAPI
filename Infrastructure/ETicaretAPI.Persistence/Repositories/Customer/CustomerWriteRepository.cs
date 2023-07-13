@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace OnionArchitecture.Persistence.Repositories
 {
-    public class CustomerWriteRepository : WriteRepository<Customer, ETicaretAPIDbContext>, ICustomerWriteRepository
+    public class CustomerWriteRepository : WriteRepository<Customer, int, AppDbContext>, ICustomerWriteRepository
     {
-        public CustomerWriteRepository(ETicaretAPIDbContext context) : base(context)
+        public CustomerWriteRepository(AppDbContext context) : base(context)
         {
         }
     }

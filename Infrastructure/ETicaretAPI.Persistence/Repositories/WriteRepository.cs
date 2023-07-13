@@ -1,5 +1,4 @@
-﻿using OnionArchitecture.Application.Repositories;
-using OnionArchitecture.Domain.Common;
+﻿using OnionArchitecture.Domain.Common;
 using OnionArchitecture.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using OnionArchitecture.Application.Abstractions.Repositories;
 
 namespace OnionArchitecture.Persistence.Repositories
 {

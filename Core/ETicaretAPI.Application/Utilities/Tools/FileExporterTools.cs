@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
 using Core.Utilities.Exceptions;
+using OnionArchitecture.Application.Abstractions.Repositories;
 
 namespace Core.Utilities.Tools
 {
@@ -39,7 +40,7 @@ namespace Core.Utilities.Tools
                     workbook.Worksheets.Add(documentName);
 
 
-                var getLanguageContent = CommonRepository.GetLanguageContent(pageName);
+                var getLanguageContent = ICommonRepository.GetLanguageContent(pageName);
 
 
                 #region Set Headers

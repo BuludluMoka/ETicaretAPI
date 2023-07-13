@@ -12,6 +12,7 @@ using OnionArchitecture.Application.Repositories;
 using OnionArchitecture.Persistence.Repositories;
 using OnionArchitecture.Application.Abstractions.Services.Project;
 using OnionArchitecture.Persistence.Services.Project;
+using Core.Application.Utilities.Settings;
 
 namespace OnionArchitecture.Persistence
 {
@@ -19,7 +20,7 @@ namespace OnionArchitecture.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services)
         {
-            services.AddDbContext<ETicaretAPIDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
+            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(AppSettings.Settings.AppDbConnectionModel.ToString()));
            
             services.AddScoped<IProductReadRepository, ProductReadRepository>();
             services.AddScoped<IProductWriteRepository, ProductWriteRepository>();

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnionArchitecture.Domain.Entities
 {
-    public class Order : BaseEntity
+    public class Order : BaseEntity<int>
     {
         public Guid CustomerID { get; set; }
         public string Description { get; set; }

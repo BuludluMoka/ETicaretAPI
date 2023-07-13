@@ -15,3 +15,4 @@ namespace OnionArchitecture.Application.Abstractions.Services.Project
         Task DeleteProductAsync(string id);
     }
 }
+

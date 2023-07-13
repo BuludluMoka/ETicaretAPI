@@ -1,4 +1,4 @@
-﻿namespace Core.Application.Utilities.Results
+﻿namespace Core.Application.Utilities.Results;
 
 public class OperationResult
 {

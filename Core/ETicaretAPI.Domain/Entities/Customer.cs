@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnionArchitecture.Domain.Entities
 {
-    public class Customer : BaseEntity
+    public class Customer : BaseEntity<int>
     {
         public string Name { get; set; }
         public ICollection<Order> Orders { get; set; }

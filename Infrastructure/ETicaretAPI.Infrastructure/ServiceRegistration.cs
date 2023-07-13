@@ -13,7 +13,7 @@ namespace OnionArchitecture.Infrastructure
     {
         public static void AddInfrastructureServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IFileService, FileService>();
+            //serviceCollection.AddScoped<IFileService, FileService>();
 
         }
     }

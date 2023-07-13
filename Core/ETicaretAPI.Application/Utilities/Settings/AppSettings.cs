@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OnionArchitecture.Application.Utilities.Settings;
 
 namespace Core.Application.Utilities.Settings
 {
@@ -15,9 +16,10 @@ namespace Core.Application.Utilities.Settings
             ReloadSettings();
         }
 
-        //Json faylındakı obyektlərin qarşılığı =>
+        //Settings.json faylındakı obyektlərin qarşılığı =>
         public DbConnectionModel AppDbConnectionModel { get; set; }
-        public JwtOptions JwtOptions { get; set; }
+        public JwtConfiguration JwtConfiguration { get; set; }
+        public MailConfiguration MailConfiguration { get; set; }
 
 
 

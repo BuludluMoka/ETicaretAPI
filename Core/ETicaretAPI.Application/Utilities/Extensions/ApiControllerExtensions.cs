@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Core.Entities.Dtos.FileUploads;
-using Core.Utilities.Results;
 using Core.Utilities.Tools;
+using Core.Application.Utilities.Results;
 
 public static class ApiControllerExtensions
 {

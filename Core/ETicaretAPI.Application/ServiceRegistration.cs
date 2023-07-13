@@ -2,13 +2,9 @@
 using Core.Utilities.Logging;
 using Core.Utilities.Logging.Loggers;
 using OnionArchitecture.Application.Utilities.Mapper;
-using OnionArchitecture.Application.Utilities.Security.Jwt;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 
@@ -19,7 +15,7 @@ namespace OnionArchitecture.Application
 
         public static void AddApplicationServices(this IServiceCollection services)
         {
-            var jwtOptions = AppSettings.Settings.JwtOptions;
+            var jwtOptions = AppSettings.Settings.JwtConfiguration;
 
             services.AddSwaggerGen(opt =>
                 {

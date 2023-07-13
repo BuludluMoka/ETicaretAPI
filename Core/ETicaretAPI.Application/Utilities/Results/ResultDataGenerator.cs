@@ -9,7 +9,7 @@ public static class ResultDataGenerator
         int statusCode = 0) => new ResultData
         {
             Data = data,
-            Message = !string.IsNullOrEmpty(message) || (resultInfo is ResultInfo.Success or ResultInfo.NotImplemented) ? message : CommonRepository.GetResultMessageValue(resultInfo),
+            Message = !string.IsNullOrEmpty(message) || (resultInfo is ResultInfo.Success or ResultInfo.NotImplemented) ? message : ICommonRepository.GetResultMessageValue(resultInfo),
             StatusCode = !string.IsNullOrEmpty(message) ? statusCode : (int)resultInfo,
             Status = !string.IsNullOrEmpty(message) ? status : ((int)resultInfo < 2000 && resultInfo != ResultInfo.NotImplemented)
         };
