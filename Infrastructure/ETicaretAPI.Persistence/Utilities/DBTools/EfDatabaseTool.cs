@@ -1,18 +1,21 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Core.DataAccess.Concrete.EntityFramework.Contexts;
 using Core.Entities.SPModels;
 using Core.Utilities.Exceptions;
+using OnionArchitecture.Application.Abstractions.DB.Tools;
+using OnionArchitecture.Persistence.Contexts;
+using OnionArchitecture.Application.Enums;
+using ClosedXML.Excel;
 
-public static class EfDbTools
+public class EfDatabaseTool : IEFDatabaseTool
 {
-    private enum DbObjectType
-    {
-        Procedure = 1,
-        Function = 2
-    }
+    private readonly AppDbContext context;
 
-    public static IList<T> ExecuteProcedure<T>(string procedureName, params SqlParameter[] parameters) where T : class
+    public EfDatabaseTool(AppDbContext dbContext)
+    {
+        context = dbContext;
+    }
+    public IList<T> ExecuteProcedure<T>(string procedureName, params SqlParameter[] parameters) where T : class
     {
         if (parameters != null
             && parameters.Any(p => p.Value == null))
@@ -20,7 +23,6 @@ public static class EfDbTools
             return new List<T>();
         }
 
-        using var context = new AppDbContext();
 
         if (!HasObjectInDb(context, procedureName, DbObjectType.Procedure))
         {
@@ -46,15 +48,12 @@ public static class EfDbTools
             .ToList();
     }
 
-    public static IList<T> ExecuteProcedure<T>(
-        string procedureName,
-        IList<SqlParameter> parameters)
-        where T : class
+    public IList<T> ExecuteProcedure<T>(string procedureName, IList<SqlParameter> parameters) where T : class
     {
         return ExecuteProcedure<T>(procedureName, parameters.ToArray());
     }
 
-    private static TableValuedFunctionResult<T> ExecuteTableValuedFunction<T>(
+    private TableValuedFunctionResult<T> ExecuteTableValuedFunction<T>(
         string functionName,
         int offset,
         int next,
@@ -122,7 +121,7 @@ public static class EfDbTools
         return result;
     }
 
-    public static TableValuedFunctionResult<T> ExecuteTableValuedFunction<T>(
+    public TableValuedFunctionResult<T> ExecuteTableValuedFunction<T>(
         string functionName,
         TableValuedFunctionFilter[] filters,
         IList<SqlParameter> parameters,
@@ -141,7 +140,7 @@ public static class EfDbTools
             parameters.ToArray());
     }
 
-    public static TableValuedFunctionResult<T> ExecuteTableValuedFunction<T>(
+    public TableValuedFunctionResult<T> ExecuteTableValuedFunction<T>(
         string functionName,
         TableValuedFunctionRequest request,
         bool defaultDesc,
@@ -164,7 +163,7 @@ public static class EfDbTools
             parameters);
     }
 
-    public static TableValuedFunctionResult<T> ExecuteTableValuedFunction<T>(
+    public TableValuedFunctionResult<T> ExecuteTableValuedFunction<T>(
         string functionName,
         TableValuedFunctionRequest request,
         params SqlParameter[] parameters)
@@ -177,7 +176,7 @@ public static class EfDbTools
             parameters);
     }
 
-    public static TableValuedFunctionResult<T> ExecuteTableValuedFunction<T>(
+    public TableValuedFunctionResult<T> ExecuteTableValuedFunction<T>(
         string functionName,
         TableValuedFunctionRequest request,
         IList<SqlParameter> parameters,
@@ -195,37 +194,9 @@ public static class EfDbTools
     /// <summary>
     /// Add parameter to list
     /// </summary>
-    public static void AddParam(this IList<SqlParameter> list, string paramName, object paramValue)
-    {
-        list.Add(new SqlParameter(paramName, paramValue));
-    }
+   
 
-    /// <summary>
-    /// Add UserId parameter to list
-    /// </summary>
-    public static void AddUserIdParam(this IList<SqlParameter> list)
-    {
-        list.AddParam("UserId", CurrentScopeDataContainer.Instance.UserId.ToString());
-    }
-
-    /// <summary>
-    /// Add Language value to list
-    /// </summary>
-    public static void AddLanguageParam(this IList<SqlParameter> list)
-    {
-        list.AddParam("Language", CurrentScopeDataContainer.Instance.Language);
-    }
-
-    /// <summary>
-    /// Adds UserId, Language values to list
-    /// </summary>
-    public static void AddSystemParams(this IList<SqlParameter> list)
-    {
-        list.AddUserIdParam();
-        list.AddLanguageParam();
-    }
-
-    private static bool HasObjectInDb(
+    private bool HasObjectInDb(
         AppDbContext context,
         string objectName,
         DbObjectType objectType)
@@ -238,7 +209,7 @@ public static class EfDbTools
         return dbObjects.FirstOrDefault(o => string.Equals(o.ObjectName, objectName, StringComparison.CurrentCultureIgnoreCase)) != null;
     }
 
-    private static bool IsFiltersValid<T>(TableValuedFunctionFilter[] filters)
+    private bool IsFiltersValid<T>(TableValuedFunctionFilter[] filters)
         where T : class
     {
         var properties = typeof(T).GetProperties();

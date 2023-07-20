@@ -46,21 +46,26 @@ namespace OnionArchitecture.Persistence.Repositories
         }
         public async Task<bool> RemoveAsync(Tkey id)
         {
-            TEntity model;
-            if (id is Guid)
-                model = await Table.FirstOrDefaultAsync(data => ((Guid)(object)data.Id).Equals(id));
-            else
-                model = await Table.FirstOrDefaultAsync(data => data.Id.Equals(id));
-           
-            return Remove(model);
+            TEntity entity = await GetEntityByIdAsync(id);
+            if (entity != null)
+                return Remove(entity);
+
+            return false; // Entity with given id not found
         }
         public bool Update(TEntity model)
         {
             EntityEntry entityEntry = Table.Update(model);
             return entityEntry.State == EntityState.Modified;
         }
-        public async Task<int> SaveAsync()
-        => await _context.SaveChangesAsync();
+
+        private async Task<TEntity> GetEntityByIdAsync(Tkey id)
+        {
+            if (typeof(Tkey) == typeof(Guid))
+                return await Table.FirstOrDefaultAsync(e => ((Guid)(object)e.Id).Equals(id));
+
+            return await Table.FindAsync(id);
+        }
+        public async Task<int> SaveAsync() => await _context.SaveChangesAsync();
 
        
     }

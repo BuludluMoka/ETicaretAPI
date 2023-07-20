@@ -22,4 +22,8 @@
     <ProjectReference Include="..\..\Core\ETicaretAPI.Application\OnionArchitecture.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utilities\Middlewares\" />
+  </ItemGroup>
+
 </Project>

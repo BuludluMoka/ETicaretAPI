@@ -1,26 +1,29 @@
 ﻿using Core.Entities.SPModels;
 using Domain.SPModels.System;
 using Microsoft.Data.SqlClient;
+using OnionArchitecture.Application.Abstractions.DB.Tools;
 using OnionArchitecture.Application.Abstractions.Repositories;
+using OnionArchitecture.Application.Utilities.Extensions;
 using OnionArchitecture.Persistence.Contexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnionArchitecture.Persistence.Repositories
 {
     public class CommonRepository : ICommonRepository
     {
+        private readonly IEFDatabaseTool _eFDatabase;
+
+        public CommonRepository( IEFDatabaseTool eFDatabase)
+        {
+            _eFDatabase = eFDatabase;
+        }
         public IList<SP_KeyValueResult> GetSpeCodeValues(string type)
         {
             var parameters = new List<SqlParameter>();
             parameters.AddParam("type", type);
             parameters.AddLanguageParam();
 
-            return EfDbTools.ExecuteProcedure<SP_KeyValueResult>(
+            return _eFDatabase.ExecuteProcedure<SP_KeyValueResult>(
                 "OBJ.SP_GetSpeCodeValues", parameters);
         }
 
@@ -29,7 +32,7 @@ namespace OnionArchitecture.Persistence.Repositories
             var parameters = new List<SqlParameter>();
             parameters.AddLanguageParam();
 
-            return EfDbTools.ExecuteProcedure<SP_GetServices>(
+            return _eFDatabase.ExecuteProcedure<SP_GetServices>(
                 "CRD.SP_GetServices", parameters);
         }
 
@@ -73,7 +76,7 @@ namespace OnionArchitecture.Persistence.Repositories
         };
             parameters.AddLanguageParam();
 
-            var getMessageResult = EfDbTools.ExecuteProcedure<SP_GetMessage>(
+            var getMessageResult = _eFDatabase.ExecuteProcedure<SP_GetMessage>(
                 "OBJ.SP_GetMessage", parameters);
 
 
@@ -99,7 +102,7 @@ namespace OnionArchitecture.Persistence.Repositories
         };
             parameters.AddLanguageParam();
 
-            var result = EfDbTools.ExecuteProcedure<T>(
+            var result = _eFDatabase.ExecuteProcedure<T>(
                 "OBJ.SP_Get_AutoCompletes", parameters);
 
             return result;
@@ -123,7 +126,7 @@ namespace OnionArchitecture.Persistence.Repositories
             parameters.AddLanguageParam();
             parameters.AddParam("PageName", pageName);
 
-            var runProcedure = EfDbTools.ExecuteProcedure<SP_GetContents>("OBJ.SP_GetContents", parameters).ToList();
+            var runProcedure = _eFDatabase.ExecuteProcedure<SP_GetContents>("OBJ.SP_GetContents", parameters).ToList();
 
             return runProcedure;
 

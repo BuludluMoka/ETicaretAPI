@@ -1,5 +1,5 @@
-﻿using OnionArchitecture.Application.ViewModels.Products;
-using FluentValidation;
+﻿using FluentValidation;
+using OnionArchitecture.Application.DTOs.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OnionArchitecture.Application.Validators.Products
 {
-    public class CreateProductValidator: AbstractValidator<VM_Product_Create>
+    public class CreateProductValidator: AbstractValidator<CreateProductDto> 
     {
         public CreateProductValidator()
         {

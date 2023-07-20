@@ -1,5 +1,4 @@
-﻿using OnionArchitecture.Application.Services;
-using OnionArchitecture.Infrastructure.Services;
+﻿using OnionArchitecture.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

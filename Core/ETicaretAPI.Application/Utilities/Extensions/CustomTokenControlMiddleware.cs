@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using OnionArchitecture.Application.Abstractions.DB;
 using System.Net;
-using Core.DataAccess.Concrete.EntityFramework.Contexts;
 
 namespace Core.Utilities.Extensions
 {
@@ -9,12 +9,13 @@ namespace Core.Utilities.Extensions
     public class CustomTokenControlMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly IApplicationDbContext _dbContext;
 
-
-        public CustomTokenControlMiddleware(RequestDelegate next)
+        public CustomTokenControlMiddleware(RequestDelegate next, IApplicationDbContext dbContext)
         {
 
             _next = next;
+            _dbContext = dbContext;
         }
 
 
@@ -45,9 +46,8 @@ namespace Core.Utilities.Extensions
 
                 if (!string.IsNullOrEmpty(token))
                 {
-                    using var dbContext = new AppDbContext();
                     //Requestden gelen tokeni db-deki ile qarshilashdir
-                    var userTokenData = dbContext.UserTokens.FirstOrDefault(x => x.AccessToken == token &&
+                    var userTokenData = _dbContext.UserTokens.FirstOrDefault(x => x.AccessToken == token &&
                     !x.LogOut);
 
                     if (userTokenData != null)

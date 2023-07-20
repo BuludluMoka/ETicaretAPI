@@ -12,11 +12,14 @@ using OnionArchitecture.Application.Abstractions.Repositories;
 
 namespace Core.Utilities.Tools
 {
-    public static class FileExporterTools
+    public class FileExporterTools
     {
+        public ICommonRepository _commonRepository;
 
-
-  
+        public FileExporterTools(ICommonRepository commonRepository)
+        {
+            _commonRepository = commonRepository;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -25,13 +28,10 @@ namespace Core.Utilities.Tools
         /// <param name="documentName">Fayl adi</param>
         /// <returns></returns>
 
-        public static byte[] ExportDataToExcel(object data, string pageName, string documentName)
+        public byte[] ExportDataToExcel(object data, string pageName, string documentName)
         {
-
             try
             {
-              
-
                 byte[] content;
                 using var workbook = new XLWorkbook();
 
@@ -40,7 +40,7 @@ namespace Core.Utilities.Tools
                     workbook.Worksheets.Add(documentName);
 
 
-                var getLanguageContent = ICommonRepository.GetLanguageContent(pageName);
+                var getLanguageContent = _commonRepository.GetLanguageContent(pageName);
 
 
                 #region Set Headers
@@ -71,15 +71,11 @@ namespace Core.Utilities.Tools
                                 {
                                     worksheet.Cell(1, cellCount++).Value = property.Name;
                                 }
-
-
                             }
                         }
                     }
                 }
                 #endregion
-
-
                 RenderCellValues(data, worksheet);
 
                 using var stream = new MemoryStream();
@@ -97,8 +93,6 @@ namespace Core.Utilities.Tools
 
         private static void RenderCellValues(object data, IXLWorksheet worksheet)
         {
-
-
             int currentRow = 1;
 
             PropertyInfo[] propertyInfos = null;

@@ -11,23 +11,26 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using OnionArchitecture.Domain.Entities;
+using OnionArchitecture.Application.Abstractions.DB;
 
 namespace OnionArchitecture.Persistence.Contexts
 {
-    public partial class AppDbContextBase : DbContext
+    public partial class AppDbContextBase : DbContext , IApplicationDbContext
     {
         public AppDbContextBase()
         {
         }
 
-        public AppDbContextBase(DbContextOptions<AppDbContextBase> options)
-            : base(options)
+        public AppDbContextBase(DbContextOptions<AppDbContextBase> options) : base(options)
         {
         }
 
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<SystemLog> SystemLogs { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<SystemLog> SystemLogs { get; set; }
+        public DbSet<UserToken> UserTokens { get; set; }
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<FileUploadSetting> FileUploadSettings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,7 +45,6 @@ namespace OnionArchitecture.Persistence.Contexts
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.ToTable("Products");
-
                 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")

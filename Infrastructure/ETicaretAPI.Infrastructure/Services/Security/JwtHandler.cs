@@ -16,10 +16,10 @@ namespace OnionArchitecture.Application.Utilities.Security.Jwt
 {
     public class JwtHandler : ITokenHandler
     {
-        private JwtConfiguration _jwtOptions;
+        private JwtConfiguration _JwtConfiguration;
         public JwtHandler()
         {
-            _jwtOptions = AppSettings.Settings.JwtOptions;
+            _JwtConfiguration = AppSettings.Settings.JwtConfiguration;
         }
 
         /// <summary>
@@ -30,17 +30,17 @@ namespace OnionArchitecture.Application.Utilities.Security.Jwt
         /// <returns></returns>
         public AccessToken CreateToken(AppUser user, bool isAdminState = false)
         {
-            var accessToken = GenerateToken(user, _jwtOptions.SecurityKey,
-                DateTime.Now.AddMinutes(_jwtOptions.AccessTokenExpiration), isAdminState);
+            var accessToken = GenerateToken(user, _JwtConfiguration.SecurityKey,
+                DateTime.Now.AddMinutes(_JwtConfiguration.AccessTokenExpiration), isAdminState);
 
             var refreshToken = GenerateToken(user,
-                _jwtOptions.RefreshTokenSecurityKey,
-                DateTime.Now.AddMinutes(_jwtOptions.AccessTokenExpiration * 2), isAdminState);
+                _JwtConfiguration.RefreshTokenSecurityKey,
+                DateTime.Now.AddMinutes(_JwtConfiguration.AccessTokenExpiration * 2), isAdminState);
 
             return new AccessToken
             {
                 Token = accessToken,
-                Expiration = DateTime.Now.AddMinutes(_jwtOptions.AccessTokenExpiration),
+                Expiration = DateTime.Now.AddMinutes(_JwtConfiguration.AccessTokenExpiration),
                 RefreshToken = refreshToken
             };
 
@@ -62,9 +62,9 @@ namespace OnionArchitecture.Application.Utilities.Security.Jwt
                 ValidateIssuer = true,
                 ValidateAudience = true,
                 ValidateLifetime = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.RefreshTokenSecurityKey)),
-                ValidIssuer = _jwtOptions.Issuer,
-                ValidAudience = _jwtOptions.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_JwtConfiguration.RefreshTokenSecurityKey)),
+                ValidIssuer = _JwtConfiguration.Issuer,
+                ValidAudience = _JwtConfiguration.Audience,
                 ClockSkew = TimeSpan.Zero
             };
 
@@ -98,7 +98,7 @@ namespace OnionArchitecture.Application.Utilities.Security.Jwt
 
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
-            var jwtSecurityToken = CreateJwtSecurityToken(_jwtOptions, user, signingCredentials, expiration,  isAdminState);
+            var jwtSecurityToken = CreateJwtSecurityToken(_JwtConfiguration, user, signingCredentials, expiration,  isAdminState);
 
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             var token = jwtSecurityTokenHandler.WriteToken(jwtSecurityToken);

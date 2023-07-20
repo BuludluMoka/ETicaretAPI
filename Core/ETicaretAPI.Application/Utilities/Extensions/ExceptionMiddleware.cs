@@ -2,20 +2,21 @@
 using System.Net;
 using System.Text.Json;
 using Core.Utilities.Exceptions;
-using Core.Utilities.Logging;
-using Core.Utilities.Results;
+using Core.Application.Utilities.Results;
+using OnionArchitecture.Application.Enums;
+using OnionArchitecture.Application.Abstractions.Services.Global;
 
 namespace Core.Utilities.Extensions
 {
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger _logger;
+        private readonly ILoggingService _loggingService;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger logger)
+        public ExceptionMiddleware(RequestDelegate next, ILoggingService  loggingService)
         {
-            _logger = logger;
             _next = next;
+            _loggingService = loggingService;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -47,7 +48,7 @@ namespace Core.Utilities.Extensions
             Exception e)
             => ResultDataGenerator.Generate(new Result
             {
-                Data = _logger.Log(
+                Data = _loggingService.Log(
                     $"{e.Message}\n\n{e.StackTrace}",
                     e is BadRequestExceptionBase 
                         ? LogType.BadRequest 

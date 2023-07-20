@@ -23,7 +23,7 @@ namespace OnionArchitecture.Persistence
             services.AddDbContext<AppDbContext>(options => options.UseNpgsql(AppSettings.Settings.AppDbConnectionModel.ToString()));
            
             services.AddScoped<IProductReadRepository, ProductReadRepository>();
-            services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
+            //services.AddScoped<IFileWriteRepository, ProductWriteRepository>();
 
             services.AddScoped<IProductService, ProductService>();
 

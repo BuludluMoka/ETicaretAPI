@@ -2,12 +2,12 @@
 
 public class OperationResult
 {
-    internal OperationResult()
+    public OperationResult()
     {
 
     }
 
-    public ResultInfo ResultInfo { get; internal set; }
-
-    public int? AuditId { get; internal set; }
+    public ResultInfo ResultInfo { get;  set; }
+        
+    public int? AuditId { get;  set; }
 }

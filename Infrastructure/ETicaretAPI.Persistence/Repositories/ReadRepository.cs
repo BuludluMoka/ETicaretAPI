@@ -1,17 +1,11 @@
-﻿using OnionArchitecture.Domain.Common;
-using OnionArchitecture.Persistence.Contexts;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using OnionArchitecture.Application.Abstractions.Repositories;
+using OnionArchitecture.Domain.Common;
+using System.Linq.Expressions;
 
 namespace OnionArchitecture.Persistence.Repositories
 {
-    public class ReadRepository<TEntity, Tkey,TContext> : IReadRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey> where TContext : DbContext
+    public class ReadRepository<TEntity, Tkey, TContext> : IReadRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey> where TContext : DbContext
     {
         private readonly TContext _context;
         public ReadRepository(TContext context)
@@ -38,18 +32,21 @@ namespace OnionArchitecture.Persistence.Repositories
             var query = Table.AsQueryable();
             if (!tracking)
                 query = Table.AsNoTracking();
-           return await query.FirstOrDefaultAsync(method);
+            return await query.FirstOrDefaultAsync(method);
         }
         public async Task<TEntity> GetByIdAsync(Tkey id, bool tracking = true)
         {
             var query = Table.AsQueryable();
             if (!tracking)
                 query = Table.AsNoTracking();
-
-            if (id is Guid)
-                return await query.FirstOrDefaultAsync(data => ((Guid)(object)data.Id).Equals(id));
+            if (typeof(Tkey) == typeof(Guid))
+            {
+                return await query.FirstOrDefaultAsync(e => ((Guid)(object)e.Id).Equals(id));
+            }
             else
-                return  await query.FirstOrDefaultAsync(data => data.Id.Equals(id));
+            {
+                return await query.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            }
         }
 
     }

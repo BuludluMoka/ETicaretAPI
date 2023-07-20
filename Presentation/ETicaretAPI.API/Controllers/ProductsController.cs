@@ -1,5 +1,4 @@
 ﻿using OnionArchitecture.Application.Repositories;
-using OnionArchitecture.Application.RequestParameters;
 using OnionArchitecture.Application.ViewModels.Products;
 using OnionArchitecture.Domain.Entities;
 using Microsoft.AspNetCore.Http;
