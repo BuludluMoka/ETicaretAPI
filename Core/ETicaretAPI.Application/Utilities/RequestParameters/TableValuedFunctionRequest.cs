@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using Core.Utilities.Exceptions;
+using OnionArchitecture.Application.Utilities.Exceptions;
 
 public class TableValuedFunctionRequest
 {

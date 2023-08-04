@@ -10,16 +10,15 @@ using System.Text;
 using OnionArchitecture.Domain.Entities;
 using OnionArchitecture.Application.DTOs.Jwt;
 using OnionArchitecture.Application.Abstractions.Security;
-using Core.Application.Utilities.Settings;
+using OnionArchitecture.Application.Utilities.Settings;
 
 namespace OnionArchitecture.Application.Utilities.Security.Jwt
 {
     public class JwtHandler : ITokenHandler
     {
         private JwtConfiguration _JwtConfiguration;
-        public JwtHandler()
+        public JwtHandler( )
         {
-            _JwtConfiguration = AppSettings.Settings.JwtConfiguration;
         }
 
         /// <summary>

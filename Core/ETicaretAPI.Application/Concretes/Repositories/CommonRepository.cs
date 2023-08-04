@@ -1,21 +1,24 @@
-﻿using Core.Entities.SPModels;
+﻿using Domain.SPModels;
 using Domain.SPModels.System;
 using Microsoft.Data.SqlClient;
+using OnionArchitecture.Application.Abstractions.DB;
 using OnionArchitecture.Application.Abstractions.DB.Tools;
 using OnionArchitecture.Application.Abstractions.Repositories;
+using OnionArchitecture.Application.Enums;
 using OnionArchitecture.Application.Utilities.Extensions;
-using OnionArchitecture.Persistence.Contexts;
 using System.Linq.Expressions;
 
 namespace OnionArchitecture.Persistence.Repositories
 {
     public class CommonRepository : ICommonRepository
     {
-        private readonly IEFDatabaseTool _eFDatabase;
+        public readonly IEFDatabaseTool _eFDatabase;
+        private readonly IApplicationDbContext _dbContext;
 
-        public CommonRepository( IEFDatabaseTool eFDatabase)
+        public CommonRepository(IEFDatabaseTool eFDatabase, IApplicationDbContext applicationDbContext)
         {
             _eFDatabase = eFDatabase;
+            _dbContext = applicationDbContext;
         }
         public IList<SP_KeyValueResult> GetSpeCodeValues(string type)
         {
@@ -23,8 +26,7 @@ namespace OnionArchitecture.Persistence.Repositories
             parameters.AddParam("type", type);
             parameters.AddLanguageParam();
 
-            return _eFDatabase.ExecuteProcedure<SP_KeyValueResult>(
-                "OBJ.SP_GetSpeCodeValues", parameters);
+            return _eFDatabase.ExecuteProcedure<SP_KeyValueResult>("OBJ.SP_GetSpeCodeValues", parameters);
         }
 
         public IList<SP_GetServices> GetServices()
@@ -45,10 +47,7 @@ namespace OnionArchitecture.Persistence.Repositories
         {
             var yearSuffix = (DateTime.Now.Year % 100).ToString();
 
-            using var context = new AppDbContext();
-            var queryableEntity = whereExpression == null
-                ? context.Set<TEntity>()
-                : context.Set<TEntity>().Where(whereExpression);
+            var queryableEntity = whereExpression == null ? _dbContext.Set<TEntity>() : _dbContext.Set<TEntity>().Where(whereExpression);
 
             var lastNumberStr = queryableEntity
                 .OrderByDescending(orderByExpression)
@@ -56,9 +55,7 @@ namespace OnionArchitecture.Persistence.Repositories
                 .Select(selectExpression)
                 .FirstOrDefault();
 
-            if (lastNumberStr == null
-                || yearSuffix != lastNumberStr.Substring(
-                    prefix.Length, yearSuffix.Length))
+            if (lastNumberStr == null || yearSuffix != lastNumberStr.Substring(prefix.Length, yearSuffix.Length))
             {
                 return $"{prefix}{yearSuffix}-00001";
             }
@@ -71,13 +68,13 @@ namespace OnionArchitecture.Persistence.Repositories
         public string GetResultMessageValue(ResultInfo resultMessage)
         {
             var parameters = new List<SqlParameter>
-        {
-            new("MessageCode", ((int)resultMessage).ToString())
-        };
+            {
+                new("MessageCode", ((int)resultMessage).ToString())
+            };
             parameters.AddLanguageParam();
 
             var getMessageResult = _eFDatabase.ExecuteProcedure<SP_GetMessage>(
-                "OBJ.SP_GetMessage", parameters);
+                "SP_GetMessage", parameters);
 
 
 
@@ -90,20 +87,16 @@ namespace OnionArchitecture.Persistence.Repositories
             return getMessageResult.First().MessageValue;
         }
 
-        public IList<T> GetAutoCompletedValues<T>(
-            string filter,
-            AutoCompleteType type)
-            where T : class
+        public IList<T> GetAutoCompletedValues<T>(string filter, AutoCompleteType type) where T : class
         {
             var parameters = new List<SqlParameter>
-        {
-            new("filter", filter),
-            new("type", (int)type)
-        };
+            {
+                new("filter", filter), new("type", (int)type)
+            };
             parameters.AddLanguageParam();
 
             var result = _eFDatabase.ExecuteProcedure<T>(
-                "OBJ.SP_Get_AutoCompletes", parameters);
+                "SP_Get_AutoCompletes", parameters);
 
             return result;
         }
@@ -126,7 +119,7 @@ namespace OnionArchitecture.Persistence.Repositories
             parameters.AddLanguageParam();
             parameters.AddParam("PageName", pageName);
 
-            var runProcedure = _eFDatabase.ExecuteProcedure<SP_GetContents>("OBJ.SP_GetContents", parameters).ToList();
+            var runProcedure = _eFDatabase.ExecuteProcedure<SP_GetContents>("SP_GetContents", parameters).ToList();
 
             return runProcedure;
 

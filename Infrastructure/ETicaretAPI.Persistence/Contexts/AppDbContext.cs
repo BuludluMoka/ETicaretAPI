@@ -1,57 +1,65 @@
-﻿using Core.Application.Utilities.Settings;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using OnionArchitecture.Application.Abstractions.DB;
+using OnionArchitecture.Application.Enums;
+using OnionArchitecture.Application.Utilities.Settings;
+using OnionArchitecture.Domain.Entities;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnionArchitecture.Persistence.Contexts
 {
-    public class AppDbContext : AppDbContextBase
+    public class AppDbContext : DbContext, IApplicationDbContext
     {
-        public AppDbContext()
-        {
-
-        }
+        public AppDbContext(){}
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){}
+        public DbSet<AppUser> AppUsers { get ; set ; }
+        public DbSet<UserToken> UserTokens { get ; set ; }
+        public DbSet<Language> Languages { get ; set ; }
+        public DbSet<SpeCode> SpeCodes { get ; set ; }
+        public DbSet<CardLang> CardLangs { get ; set ; }
+        public DbSet<Message> Messages { get ; set ; }
+        public DbSet<MessageLang> MessageLangs { get ; set ; }
+        public DbSet<FileUploadSetting> FileUploadSettings { get ; set ; }
+        public DbSet<SystemLog> SystemLogs { get ; set ; }
+        public DbSet<Product> Products { get ; set ; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql(AppSettings.Settings.AppDbConnectionModel.ToString());
+                optionsBuilder.UseSqlServer(AppSettings.GetSetting(SettingOptions.ConnectionStrings, "SqlServerConnection"));
             }
         }
-        public override int SaveChanges()
-        {
-            foreach (var entry in ChangeTracker.Entries())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        SetCreatedAuditProperties(entry);
-                        break;
-                    case EntityState.Modified:
-                        SetModifiedAuditProperties(entry);
-                        break;
 
-                }
-            }
-            return base.SaveChanges();
-
-        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+          
+            modelBuilder.Entity<FileUpload>(entity =>
+            {
 
-            var spTypes = Assembly
-                .GetExecutingAssembly()
-                .GetTypes()
-                .Where(t => t.Name.StartsWith("SP_")
-                            || t.Name.StartsWith("FN_"))
-                .ToHashSet();
+                entity.Property(e => e.DownloadKey).HasMaxLength(50);
+
+                entity.Property(e => e.FileName).HasMaxLength(255);
+
+                entity.Property(e => e.TableName).HasMaxLength(50);
+
+                entity.Property(e => e.Url).HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<SystemLog>(entity =>
+            {
+                entity.Property(e => e.RequestUrl).HasMaxLength(500);
+
+                entity.Property(e => e.Type).HasMaxLength(50);
+            });
+
+            #region SP,FN Functinality
+            var DomainAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a =>a.GetName().Name == "OnionArchitecture.Domain"); 
+            var spTypes = DomainAssembly.GetTypes()
+              .Where(t => t.Name.StartsWith("SP_")
+                          || t.Name.StartsWith("FN_"))
+              .ToHashSet();
 
             var orderedTypes = new List<Type>();
 
@@ -71,11 +79,31 @@ namespace OnionArchitecture.Persistence.Contexts
                 }
             }
 
-
             foreach (var spType in orderedTypes)
             {
                 modelBuilder.Entity(spType).HasNoKey();
             }
+            #endregion
+
+            base.OnModelCreating(modelBuilder);
+        }
+        public override int SaveChanges()
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        SetCreatedAuditProperties(entry);
+                        break;
+                    case EntityState.Modified:
+                        SetModifiedAuditProperties(entry);
+                        break;
+
+                }
+            }
+            return base.SaveChanges();
+
         }
 
 
@@ -109,5 +137,6 @@ namespace OnionArchitecture.Persistence.Contexts
 
             SetDateAndUserValuesToEntity(entry, "ModifiedDate", "ModifiedUserId");
         }
+
     }
 }

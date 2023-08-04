@@ -10,7 +10,6 @@ namespace OnionArchitecture.Application.Helpers
 {
     public class SecurityHelper
     {
-
         public static string CreateMD5(string input)
         {
             string result = "";

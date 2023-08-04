@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OnionArchitecture.Persistence.Repositories.FileUploadRepo
 {
-    public class FileReadRepository : ReadRepository<FileUpload, Guid, AppDbContext>, IFileReadRepository
+    public class FileReadRepository : ReadRepository<FileUpload, int, AppDbContext>, IFileReadRepository
     {
         public FileReadRepository(AppDbContext context) : base(context)
         {

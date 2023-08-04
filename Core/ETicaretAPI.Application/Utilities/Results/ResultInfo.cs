@@ -26,6 +26,7 @@
     OrderHasCalculationSheet = 2020,
     PasswordValidation = 2021,
     OldPasswordError = 2022,
+    FileFormatIncorrect = 2024,
 
     //-------------------------------
 

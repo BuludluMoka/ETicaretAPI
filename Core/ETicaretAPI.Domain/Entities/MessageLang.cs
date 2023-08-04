@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace OnionArchitecture.Domain.Entities
 {
-    public class Customer : BaseEntity<int>
+    public class MessageLang : BaseEntity<int>
     {
-        public string Name { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        public int MessageId { get; set; }
+        public int LangId { get; set; }
+        public string Value { get; set; }
+        public bool Status { get; set; }
 
     }
 }

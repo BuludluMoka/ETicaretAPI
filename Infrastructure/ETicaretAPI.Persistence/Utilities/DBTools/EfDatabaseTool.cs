@@ -1,11 +1,10 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Domain.SPModels;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Core.Entities.SPModels;
-using Core.Utilities.Exceptions;
 using OnionArchitecture.Application.Abstractions.DB.Tools;
-using OnionArchitecture.Persistence.Contexts;
 using OnionArchitecture.Application.Enums;
-using ClosedXML.Excel;
+using OnionArchitecture.Application.Utilities.Exceptions;
+using OnionArchitecture.Persistence.Contexts;
 
 public class EfDatabaseTool : IEFDatabaseTool
 {
@@ -17,24 +16,20 @@ public class EfDatabaseTool : IEFDatabaseTool
     }
     public IList<T> ExecuteProcedure<T>(string procedureName, params SqlParameter[] parameters) where T : class
     {
-        if (parameters != null
-            && parameters.Any(p => p.Value == null))
+        if (parameters != null && parameters.Any(p => p.Value == null))
         {
             return new List<T>();
         }
 
-
         if (!HasObjectInDb(context, procedureName, DbObjectType.Procedure))
         {
-            throw new InvalidRequestParameterException(
-                $"Invalid procedure name: '{procedureName}'.");
+            throw new InvalidRequestParameterException($"Invalid procedure name: '{procedureName}'.");
         }
 
         var parametersStr = parameters != null
             ? string.Join(", ", parameters.Select(p => $"@{p.ParameterName} = @{p.ParameterName}"))
             : "";
-        var query =
-            $"exec {procedureName} {parametersStr}";
+        var query = $"exec {procedureName} {parametersStr}";
         var parametersList = new List<object>();
 
         if (parameters != null)
@@ -60,8 +55,7 @@ public class EfDatabaseTool : IEFDatabaseTool
         bool exportToExcel,
         bool defaultDesc,
         TableValuedFunctionFilter[] filters,
-        params SqlParameter[] parameters)
-        where T : class
+        params SqlParameter[] parameters) where T : class
     {
         using var context = new AppDbContext();
 
@@ -149,8 +143,7 @@ public class EfDatabaseTool : IEFDatabaseTool
     {
         if (request == null)
         {
-            throw new InvalidRequestParameterException
-                <TableValuedFunctionRequest>(nameof(request), null);
+            throw new InvalidRequestParameterException <TableValuedFunctionRequest>(nameof(request), null);
         }
 
         return ExecuteTableValuedFunction<T>(
@@ -196,21 +189,18 @@ public class EfDatabaseTool : IEFDatabaseTool
     /// </summary>
    
 
-    private bool HasObjectInDb(
-        AppDbContext context,
-        string objectName,
-        DbObjectType objectType)
+    private bool HasObjectInDb( AppDbContext context, string objectName, DbObjectType objectType)
     {
         var dbObjects = context
             .Set<SP_GetDbObjects>()
             .FromSqlRaw($"exec dbo.SP_GetDbObjects {(int)objectType}")
             .ToList();
-
-        return dbObjects.FirstOrDefault(o => string.Equals(o.ObjectName, objectName, StringComparison.CurrentCultureIgnoreCase)) != null;
+        var a = dbObjects.FirstOrDefault(o => string.Equals(o.ObjectName, objectName, StringComparison.CurrentCultureIgnoreCase)) != null;
+        Console.WriteLine();
+        return a;
     }
 
-    private bool IsFiltersValid<T>(TableValuedFunctionFilter[] filters)
-        where T : class
+    private bool IsFiltersValid<T>(TableValuedFunctionFilter[] filters) where T : class
     {
         var properties = typeof(T).GetProperties();
 

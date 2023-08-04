@@ -9,7 +9,8 @@ namespace OnionArchitecture.Application.Abstractions.Storage
 {
     public interface IStorage
     {
-        Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string pathOrContainerName, IFormFileCollection files);
+        Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(IFormFileCollection files, string pathOrContainerName);
+        Task<(string fileName, string pathOrContainerName)> UploadAsync(IFormFile file, string pathOrContainerName );
         Task DeleteAsync(string pathOrContainerName, string fileName);
         List<string> GetFiles(string pathOrContainerName);
         bool HasFile(string pathOrContainerName, string fileName);

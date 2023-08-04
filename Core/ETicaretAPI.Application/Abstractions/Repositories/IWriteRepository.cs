@@ -16,7 +16,7 @@ namespace OnionArchitecture.Application.Abstractions.Repositories
         bool RemoveRange(List<TEntity> datas);
         Task<bool> RemoveAsync(Tkey id);
         bool Update(TEntity model);
-        Task<int> SaveAsync();
+        Task<ResultInfo> SaveAsync();
 
     }
 }

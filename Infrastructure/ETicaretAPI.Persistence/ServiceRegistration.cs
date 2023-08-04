@@ -1,32 +1,44 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
-using OnionArchitecture.Persistence.Contexts;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using OnionArchitecture.Application.Repositories;
-using OnionArchitecture.Persistence.Repositories;
+using Microsoft.Extensions.DependencyInjection;
+using OnionArchitecture.Application.Abstractions.DB;
+using OnionArchitecture.Application.Abstractions.DB.Tools;
 using OnionArchitecture.Application.Abstractions.Services.Project;
+using OnionArchitecture.Application.Repositories;
+using OnionArchitecture.Application.Repositories.FileUploadRepo;
+using OnionArchitecture.Persistence.Contexts;
+using OnionArchitecture.Persistence.Repositories;
+using OnionArchitecture.Persistence.Repositories.FileUploadRepo;
 using OnionArchitecture.Persistence.Services.Project;
-using Core.Application.Utilities.Settings;
 
 namespace OnionArchitecture.Persistence
 {
     public static class ServiceRegistration
     {
-        public static void AddPersistenceServices(this IServiceCollection services)
+        public static void AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(AppSettings.Settings.AppDbConnectionModel.ToString()));
-           
-            services.AddScoped<IProductReadRepository, ProductReadRepository>();
-            //services.AddScoped<IFileWriteRepository, ProductWriteRepository>();
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("PostgreSqlConnection")));
 
+
+            //Other
+            services.AddScoped<IApplicationDbContext, AppDbContext>();
+            services.AddScoped<IEFDatabaseTool, EfDatabaseTool>();
+
+            //Repositories
+            services.AddScoped<IFileReadRepository, FileReadRepository>();
+            services.AddScoped<IFileWriteRepository, FileWriteRepository>();
+            services.AddScoped<IProductReadRepository, ProductReadRepository>();
+            services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
+
+
+            //Services
+            //services.AddScoped<IFileUploadService, FileUploadService>();
             services.AddScoped<IProductService, ProductService>();
 
+
+
+
         }
+
     }
 }

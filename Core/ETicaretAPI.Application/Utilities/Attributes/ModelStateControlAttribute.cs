@@ -12,7 +12,7 @@ public class ModelStateControlAttribute : ActionFilterAttribute
         if (!context.ModelState.IsValid)
         {
             context.Result = new BadRequestObjectResult(
-                ResultDataGenerator.Generate(ResultInfo.FillRequiredFields));
+                new ResultDataGenerator().Generate(ResultInfo.FillRequiredFields));
         }
         base.OnActionExecuting(context);
     }

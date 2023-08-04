@@ -21,14 +21,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnionArchitecture.API", "Pr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{33CDED3F-1313-4E91-874D-BEC0E1077A38}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soluction Items", "Soluction Items", "{9FCC6CA0-2C65-48A7-AD60-AFE3D9CDB53E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project Items", "Project Items", "{9FCC6CA0-2C65-48A7-AD60-AFE3D9CDB53E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoScripts", "AutoScripts", "{3EC62ED8-5A6F-4102-8527-20C7125BCCEF}"
 	ProjectSection(SolutionItems) = preProject
 		DB-SCAFFOLD-COMMAND.txt = DB-SCAFFOLD-COMMAND.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnionArchitecture.SignalR", "OnionArchitecture.SignalR\OnionArchitecture.SignalR.csproj", "{DCF158CE-8404-4981-9F95-39565742BA74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnionArchitecture.SignalR", "OnionArchitecture.SignalR\OnionArchitecture.SignalR.csproj", "{DCF158CE-8404-4981-9F95-39565742BA74}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Uploads", "Uploads", "{5F28E4C4-CC14-4420-88F0-3854DBAD7407}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,7 @@ Global
 		{180D3043-0000-48AB-BC52-0EE364B74F18} = {444846DA-68FD-4ACD-AB0C-AD4FDE3A8EAA}
 		{3EC62ED8-5A6F-4102-8527-20C7125BCCEF} = {9FCC6CA0-2C65-48A7-AD60-AFE3D9CDB53E}
 		{DCF158CE-8404-4981-9F95-39565742BA74} = {31A9F06E-88A4-4111-BF93-5415FD0BB2A0}
+		{5F28E4C4-CC14-4420-88F0-3854DBAD7407} = {9FCC6CA0-2C65-48A7-AD60-AFE3D9CDB53E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15035DA2-39CC-4045-9ED6-F64149B84E69}

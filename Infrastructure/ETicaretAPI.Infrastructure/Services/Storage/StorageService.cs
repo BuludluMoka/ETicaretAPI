@@ -11,7 +11,6 @@ namespace OnionArchitecture.Infrastructure.Services.Storage
     public class StorageService : IStorageService
     {
         readonly IStorage _storage;
-
         public StorageService(IStorage storage)
         {
             _storage = storage;
@@ -28,7 +27,11 @@ namespace OnionArchitecture.Infrastructure.Services.Storage
         public bool HasFile(string pathOrContainerName, string fileName)
             => _storage.HasFile(pathOrContainerName, fileName);
 
-        public Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string pathOrContainerName, IFormFileCollection files)
-            => _storage.UploadAsync(pathOrContainerName, files);
+        public Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(IFormFileCollection files, string pathOrContainerName)
+            => _storage.UploadAsync(files, pathOrContainerName);
+
+
+        public Task<(string fileName, string pathOrContainerName)> UploadAsync(IFormFile file, string pathOrContainerName)
+        => _storage.UploadAsync(file, pathOrContainerName);
     }
 }

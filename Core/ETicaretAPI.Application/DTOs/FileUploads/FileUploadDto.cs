@@ -11,9 +11,6 @@ namespace OnionArchitecture.Application.DTOs.FileUploads
 {
     public class FileUploadDto : IMapTo<FileUpload>
     {
-        /// <summary>
-        /// [moduleName]\[controllerName]
-        /// </summary>
         public string BasePath { get; set; }
 
         public string TableName { get; set; }

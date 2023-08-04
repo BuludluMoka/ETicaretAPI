@@ -1,4 +1,5 @@
-﻿namespace Core.Utilities.Exceptions;
+﻿namespace OnionArchitecture.Application.Utilities.Exceptions;
+
 
 public abstract class BadRequestExceptionBase : ApplicationException
 {

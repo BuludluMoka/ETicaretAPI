@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OnionArchitecture.Persistence.Repositories.FileUploadRepo
 {
-    public class FileWriteRepository : WriteRepository<FileUpload, Guid, AppDbContext>, IFileWriteRepository
+    public class FileWriteRepository : WriteRepository<FileUpload, int, AppDbContext>, IFileWriteRepository
     {
         public FileWriteRepository(AppDbContext context) : base(context)
         {

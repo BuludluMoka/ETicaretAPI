@@ -1,4 +1,4 @@
-﻿using Core.Entities.SPModels;
+﻿using Domain.SPModels;
 using OnionArchitecture.Application.DTOs.FileUploads;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace OnionArchitecture.Application.Abstractions.Services.Global
     public interface IFileUploadService
     {
         IList<SP_GetUploadedFilesInfo> GetUploadedFilesInfo(string tableName, int id, short? documentType = null);
-        Task<ResultInfo> Upload(FileUploadDto fileDto);
+        Task<ResultInfo> UploadAsync(IList<FileUploadDto> fileUploadDtos);
         Task<DownloadedFileResult> Download(Guid key);
         Task<ResultInfo> Delete(Guid key);
     }

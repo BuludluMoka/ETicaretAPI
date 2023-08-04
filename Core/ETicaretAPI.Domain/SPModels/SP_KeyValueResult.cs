@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.SPModels;
+﻿namespace Domain.SPModels;
 
 public class SP_KeyValueResult
 {

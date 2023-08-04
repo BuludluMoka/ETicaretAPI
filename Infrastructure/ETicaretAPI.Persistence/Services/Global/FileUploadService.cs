@@ -1,20 +1,14 @@
 ﻿using AutoMapper;
-using Core.Application.Utilities.Results;
-using Core.Entities.SPModels;
+using Domain.SPModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using OnionArchitecture.Application.Abstractions.DB.Tools;
 using OnionArchitecture.Application.Abstractions.Services.Global;
+using OnionArchitecture.Application.Abstractions.Storage;
 using OnionArchitecture.Application.DTOs.FileUploads;
 using OnionArchitecture.Application.Repositories.FileUploadRepo;
 using OnionArchitecture.Domain.Entities;
 using OnionArchitecture.Persistence.Contexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnionArchitecture.Persistence.Services.Global
 {
@@ -25,69 +19,46 @@ namespace OnionArchitecture.Persistence.Services.Global
         private readonly IEFDatabaseTool _eFDatabase;
         private readonly IFileReadRepository _fileReadRepository;
         private readonly IFileWriteRepository _fileWriteRepository;
+        private readonly IStorageService _storageService;
 
-        public FileUploadService(AppDbContext context,IMapper mapper, IEFDatabaseTool eFDatabase, IFileReadRepository fileReadRepository, IFileWriteRepository fileWriteRepository) 
+        public FileUploadService(AppDbContext context,
+            IMapper mapper,
+            IEFDatabaseTool eFDatabase,
+            IFileReadRepository fileReadRepository,
+            IFileWriteRepository fileWriteRepository,
+            IStorageService storageService)
         {
             _Dbcontext = context;
             _mapper = mapper;
             _eFDatabase = eFDatabase;
             _fileReadRepository = fileReadRepository;
             _fileWriteRepository = fileWriteRepository;
-        }
-        private static string BasePath => "..\\Core\\Uploads";
-
-        public IList<SP_GetUploadedFilesInfo> GetUploadedFilesInfo(
-            string tableName,
-            int id,
-            short? documentType = null)
-        {
-            var parameters = new List<SqlParameter>
-        {
-            new("tableName", tableName),
-            new("id", id)
-        };
-
-
-            if (documentType.HasValue)
-            {
-                parameters.Add(new SqlParameter("docType", documentType.Value));
-            }
-
-            var data = _eFDatabase.ExecuteProcedure<SP_GetUploadedFilesInfo>("OPR.SP_GetUploadedFilesInfo", parameters);
-
-            return data;
+            _storageService = storageService;
         }
 
-        public async Task<ResultInfo> Upload(FileUploadDto fileDto)
+
+        public async Task<ResultInfo> UploadAsync(IList<FileUploadDto> fileUploadDtos)
         {
-            if (fileDto.FormFile == null
-                || !IsCorrectFileFormat(fileDto.FormFile))
+            foreach (var fileUpload in fileUploadDtos)
             {
-                return ResultInfo.SaveFailure;
+                if (fileUpload.FormFile == null || !IsCorrectFileFormat(fileUpload.FormFile))
+                {
+                    return ResultInfo.FileFormatIncorrect;
+                }
             }
 
-            var directoryPath = Path.Combine(BasePath, fileDto.BasePath);
-
-            if (!Directory.Exists(directoryPath))
+            foreach (var file in fileUploadDtos)
             {
-                Directory.CreateDirectory(directoryPath);
+                var UploadedFile = await _storageService.UploadAsync(file.FormFile, file.TableName);
+                var fileUpload = new FileUpload
+                {
+                    FileName = UploadedFile.fileName,
+                    Url = UploadedFile.pathOrContainerName,
+                    CreateUserId = CurrentScopeDataContainer.Instance.UserId
+                };
+                _mapper.Map<FileUpload>(fileUploadDtos, fileUpload);
+                await _fileWriteRepository.AddAsync(fileUpload);
             }
-
-            var fileName = Guid.NewGuid()
-                           + Path.GetExtension(fileDto.FormFile.FileName);
-            var filePath = Path.Combine(directoryPath, fileName);
-            using var fs = new FileStream(filePath, FileMode.Create);
-            fileDto.FormFile.CopyTo(fs);
-
-            var fileUpload = new FileUpload
-            {
-                FileName = fileDto.FormFile.FileName,
-                Url = filePath,
-                CreateUserId = CurrentScopeDataContainer.Instance.UserId
-            };
-
-            _mapper.Map<FileUpload>(fileUpload, fileDto);
-            await _fileWriteRepository.AddAsync(fileUpload);
             var affectedRows = await _fileWriteRepository.SaveAsync();
             var result = affectedRows > 0 ? ResultInfo.SaveSuccess : ResultInfo.SaveFailure;
 
@@ -96,9 +67,8 @@ namespace OnionArchitecture.Persistence.Services.Global
 
         public async Task<DownloadedFileResult> Download(Guid key)
         {
-            var fileUpload =   await _fileReadRepository.GetSingleAsync(f => f.DownloadKey == key
+            var fileUpload = await _fileReadRepository.GetSingleAsync(f => f.DownloadKey == key
                                         && f.Status == true);
-
             if (fileUpload == null)
             {
                 return null;
@@ -113,7 +83,6 @@ namespace OnionArchitecture.Persistence.Services.Global
             {
                 return null;
             }
-
             var result = new DownloadedFileResult
             {
                 Content = File.ReadAllBytes(fileUpload.Url),
@@ -128,27 +97,57 @@ namespace OnionArchitecture.Persistence.Services.Global
         {
             var fileUpload = await _fileReadRepository.GetSingleAsync(f => f.DownloadKey == key
                                       && f.Status == true);
-
             if (fileUpload == null)
             {
                 return ResultInfo.NotFound;
             }
-
             fileUpload.Status = false;
-
-             _fileWriteRepository.Update(fileUpload);
+            _fileWriteRepository.Update(fileUpload);
             var affectedRows = await _fileWriteRepository.SaveAsync();
             var result = affectedRows > 0 ? ResultInfo.Deleted : ResultInfo.SaveFailure;
             return result;
+        }
+        public IList<SP_GetUploadedFilesInfo> GetUploadedFilesInfo(string tableName, int id, short? documentType = null)
+        {
+            var parameters = new List<SqlParameter>
+        {
+            new("tableName", tableName),
+            new("id", id)
+        };
+
+            if (documentType.HasValue)
+            {
+                parameters.Add(new SqlParameter("docType", documentType.Value));
+            }
+
+            var data = _eFDatabase.ExecuteProcedure<SP_GetUploadedFilesInfo>("OPR.SP_GetUploadedFilesInfo", parameters);
+
+            return data;
         }
 
         private bool IsCorrectFileFormat(IFormFile formFile)
         {
             return _Dbcontext.FileUploadSettings.Any(
-                s => s.Status == true
-                    && s.ContentType == formFile.ContentType
-                     && s.Extension == Path.GetExtension(formFile.FileName)
-                     && formFile.Length <= s.SizeInMegabyte * 1024 * 1024);
+             s => s.Status == true
+                 && s.ContentType == formFile.ContentType
+                  && s.Extension == Path.GetExtension(formFile.FileName)
+                  && formFile.Length <= s.SizeInMegabyte * 1024 * 1024);
+        }
+        public IList<FileUploadDto> GenerateFileUploadDto(IFormFileCollection formFiles, int id, string TableName)
+        {
+            if (formFiles.Count < 0 && id < 0 && string.IsNullOrEmpty(TableName)) return null;
+            var result = new List<FileUploadDto>();
+            foreach (var item in formFiles)
+            {
+                result.Add(new FileUploadDto()
+                {
+                    TableId = id,
+                    TableName = TableName,
+                    BasePath = TableName,
+                    FormFile = item
+                });
+            }
+            return result;
         }
     }
 }

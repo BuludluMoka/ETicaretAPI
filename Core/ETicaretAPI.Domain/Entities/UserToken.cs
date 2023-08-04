@@ -11,9 +11,6 @@ namespace OnionArchitecture.Domain.Entities
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
-        /// <summary>
-        /// AccessToken endate
-        /// </summary>
         public DateTime? EndDate { get; set; }
         public int? UserId { get; set; }
         public bool LogOut { get; set; }

@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.SPModels;
 
-namespace Core.Entities.SPModels
+public class SP_GetCardLangByType
 {
-    public class SP_GetCardLangByType
-    {
-        public int? Id { get; set; }
-        public string Language { get; set; }
-        public string Value { get; set; }
-    }
+    public int? Id { get; set; }
+    public string Language { get; set; }
+    public string Value { get; set; }
 }

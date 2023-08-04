@@ -13,15 +13,12 @@ namespace Core.Utilities.Extensions
 
         public CustomTokenControlMiddleware(RequestDelegate next, IApplicationDbContext dbContext)
         {
-
             _next = next;
             _dbContext = dbContext;
         }
 
-
         public Task Invoke(HttpContext context)
         {
-
             try
             {
                 var path = context.Request.Path.ToString().ToLower();
@@ -47,8 +44,7 @@ namespace Core.Utilities.Extensions
                 if (!string.IsNullOrEmpty(token))
                 {
                     //Requestden gelen tokeni db-deki ile qarshilashdir
-                    var userTokenData = _dbContext.UserTokens.FirstOrDefault(x => x.AccessToken == token &&
-                    !x.LogOut);
+                    var userTokenData = _dbContext.UserTokens.FirstOrDefault(x => x.AccessToken == token && !x.LogOut);
 
                     if (userTokenData != null)
                     {
@@ -63,15 +59,11 @@ namespace Core.Utilities.Extensions
                 {
                     return HandleAsync(context);
                 }
-
-
             }
             catch (Exception)
             {
                 return HandleAsync(context);
             }
-
-
         }
 
         private Task HandleAsync(HttpContext httpContext)
@@ -80,7 +72,7 @@ namespace Core.Utilities.Extensions
             httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
 
             return httpContext.Response.WriteAsync(
-                JsonConvert.SerializeObject(ResultDataGenerator.Generate(ResultInfo.Unauthorized)));
+                JsonConvert.SerializeObject( new ResultDataGenerator().Generate(ResultInfo.Unauthorized)));
         }
     }
 }

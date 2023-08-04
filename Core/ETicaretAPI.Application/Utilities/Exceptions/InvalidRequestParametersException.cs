@@ -1,5 +1,4 @@
-﻿namespace Core.Utilities.Exceptions;
-
+﻿namespace OnionArchitecture.Application.Utilities.Exceptions;
 public class InvalidRequestParameterException : BadRequestExceptionBase
 {
     public InvalidRequestParameterException(string message)

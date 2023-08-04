@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using OnionArchitecture.Application.Abstractions.DB;
+using OnionArchitecture.Persistence.Contexts;
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace Core.Utilities.Extensions
+namespace OnionArchitecture.Application.Utilities.Extensions
 {
     public class CurrentScopeDataMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IApplicationDbContext context;
 
-        public CurrentScopeDataMiddleware(RequestDelegate next, IApplicationDbContext context)
+        public CurrentScopeDataMiddleware(RequestDelegate next)
         {
             _next = next;
-            this.context = context;
         }
 
         public Task InvokeAsync(HttpContext httpContext)
@@ -39,8 +38,6 @@ namespace Core.Utilities.Extensions
             return _next(httpContext);
         }
 
-
-
         private  string AcceptLanguageInit(string acceptLanguageInHeader)
         {
             List<string> defaultLanguages = new() { "AZ", "EN", "RU" };
@@ -48,20 +45,16 @@ namespace Core.Utilities.Extensions
             const string defaultLanguage = "AZ";
             string acceptLanguage;
 
-
-
             if (defaultLanguages.Count(x => x.ToUpper() == acceptLanguageInHeader.ToUpper()) > 0)
             {
                 acceptLanguage = acceptLanguageInHeader;
             }
             else
             {
+                using var context = new AppDbContext();
                 var languages = context.Languages.FirstOrDefault(x => x.ShortName.ToUpper() == acceptLanguageInHeader);
-
                 acceptLanguage = languages != null ? acceptLanguageInHeader : defaultLanguage;
-
             }
-
             return acceptLanguage;
         }
 

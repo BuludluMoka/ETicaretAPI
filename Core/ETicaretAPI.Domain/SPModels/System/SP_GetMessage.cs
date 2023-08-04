@@ -1,7 +1,6 @@
-﻿namespace Domain.SPModels.System
+﻿namespace Domain.SPModels.System;
+
+public class SP_GetMessage
 {
-    public class SP_GetMessage
-    {
-        public string MessageValue { get; set; }
-    }
+    public string MessageValue { get; set; }
 }

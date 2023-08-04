@@ -38,7 +38,7 @@ namespace OnionArchitecture.Infrastructure.Services.Storage.Azure
             return _blobContainerClient.GetBlobs().Any(b => b.Name == fileName);
         }
 
-        public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string containerName, IFormFileCollection files)
+        public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(IFormFileCollection files, string containerName)
         {
             _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
             await _blobContainerClient.CreateIfNotExistsAsync();
@@ -53,6 +53,21 @@ namespace OnionArchitecture.Infrastructure.Services.Storage.Azure
                 await blobClient.UploadAsync(file.OpenReadStream());
                 datas.Add((fileNewName, $"{containerName}/{fileNewName}"));
             }
+            return datas;
+        }
+        public async Task<(string fileName, string pathOrContainerName)> UploadAsync(IFormFile file, string containerName)
+        {
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            await _blobContainerClient.CreateIfNotExistsAsync();
+            await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.BlobContainer);
+
+            (string fileName, string pathOrContainerName) datas = new();
+            string fileNewName = await FileRenameAsync(containerName, file.Name, HasFile);
+
+            BlobClient blobClient = _blobContainerClient.GetBlobClient(fileNewName);
+            await blobClient.UploadAsync(file.OpenReadStream());
+            datas.fileName = fileNewName;
+            datas.pathOrContainerName = $"{containerName}/{fileNewName}";
             return datas;
         }
     }

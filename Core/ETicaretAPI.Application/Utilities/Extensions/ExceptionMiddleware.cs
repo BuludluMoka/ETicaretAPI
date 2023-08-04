@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Text.Json;
-using Core.Utilities.Exceptions;
+using OnionArchitecture.Application.Utilities.Exceptions;
 using Core.Application.Utilities.Results;
 using OnionArchitecture.Application.Enums;
 using OnionArchitecture.Application.Abstractions.Services.Global;
@@ -13,7 +13,7 @@ namespace Core.Utilities.Extensions
         private readonly RequestDelegate _next;
         private readonly ILoggingService _loggingService;
 
-        public ExceptionMiddleware(RequestDelegate next, ILoggingService  loggingService)
+        public ExceptionMiddleware(RequestDelegate next, ILoggingService loggingService)
         {
             _next = next;
             _loggingService = loggingService;
@@ -34,28 +34,16 @@ namespace Core.Utilities.Extensions
         private Task HandleExceptionAsync(HttpContext httpContext, Exception e)
         {
             httpContext.Response.ContentType = "application/json";
-            httpContext.Response.StatusCode = 
-                (int)(e is BadRequestExceptionBase 
-                    ? HttpStatusCode.BadRequest 
-                    : HttpStatusCode.InternalServerError);
-            
-
+            httpContext.Response.StatusCode = (int)(e is BadRequestExceptionBase ? HttpStatusCode.BadRequest : HttpStatusCode.InternalServerError);
             return httpContext.Response.WriteAsync(
                 JsonSerializer.Serialize(GenerateLogResult(e)));
         }
 
-        private IResultData GenerateLogResult(
-            Exception e)
-            => ResultDataGenerator.Generate(new Result
-            {
-                Data = _loggingService.Log(
-                    $"{e.Message}\n\n{e.StackTrace}",
-                    e is BadRequestExceptionBase 
-                        ? LogType.BadRequest 
+        private IResultData GenerateLogResult(Exception e) => new ResultDataGenerator().Generate(new Result
+        {
+            Data = _loggingService.Log($"{e.Message}\n\n{e.StackTrace}", e is BadRequestExceptionBase ? LogType.BadRequest
                         : LogType.Exception),
-                ResultInfo = e is BadRequestExceptionBase ex
-                            ? ex.ExceptionResult
-                            : ResultInfo.InternalServerError
-            });
+            ResultInfo = e is BadRequestExceptionBase ex ? ex.ExceptionResult : ResultInfo.InternalServerError
+        });
     }
 }

@@ -1,4 +1,5 @@
 	
 	
-	Scaffold-DbContext "Server=192.168.168.193;Database=DB_TNBUDGET;User Id=budget;Password=@uni3589a43r!@@@;Encrypt=False" -OutputDir Entities/Models -ContextDir DataAccess/Concrete/EntityFramework/Contexts -Context AppDbContextBase  Microsoft.EntityFrameworkCore.SqlServer  -force 
+	Scaffold-DbContext "Server=192.168.168.193;Database=postgress;User Id=budget;Password=@uni3589a43r!@@@;Encrypt=False" -OutputDir Entities/Models -ContextDir DataAccess/Concrete/EntityFramework/Contexts -Context AppDbContext  Microsoft.EntityFrameworkCore.SqlServer  -force 
 
+	Scaffold-DbContext "Server=./;Database=EXAMPL;Encrypt=False" -OutputDir ../Domain/Entities -ContextDir Contexts -Context AppDbContext Microsoft.EntityFrameworkCore.SqlServer -force

@@ -1,7 +1,6 @@
-﻿using Core.Utilities.Extensions;
-using Microsoft.AspNetCore.Builder;
+﻿using OnionArchitecture.Application.Utilities.Extensions;
 
-namespace Core.Application.Utilities.Extensions
+namespace OnionArchitecture.API.Middlewares
 {
     public static class CoreMiddlewareInitializer
     {
@@ -11,9 +10,9 @@ namespace Core.Application.Utilities.Extensions
 
         public static void UseCoreMiddlewares(this IApplicationBuilder app)
         {
-            app.UseMiddleware<ExceptionMiddleware>();
+            //app.UseMiddleware<ExceptionMiddleware>();
             app.UseMiddleware<CurrentScopeDataMiddleware>();
-            app.UseMiddleware<CustomTokenControlMiddleware>();
+            //app.UseMiddleware<CustomTokenControlMiddleware>();
         }
     }
 }

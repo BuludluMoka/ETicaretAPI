@@ -9,10 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using OnionArchitecture.Application.Abstractions.Repositories;
+using Core.Application.Utilities.Results;
+using System.Reflection.Metadata.Ecma335;
 
 namespace OnionArchitecture.Persistence.Repositories
 {
-    public class WriteRepository<TEntity,Tkey ,TContext> : IWriteRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey>  where TContext : DbContext
+    public class WriteRepository<TEntity, Tkey, TContext> : IWriteRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey> where TContext : DbContext
     {
 
         private readonly TContext _context;
@@ -30,7 +32,7 @@ namespace OnionArchitecture.Persistence.Repositories
 
         public async Task<bool> AddRangeAsync(List<TEntity> datas)
         {
-            await Table.AddRangeAsync(datas); 
+            await Table.AddRangeAsync(datas);
             return true;
         }
 
@@ -65,8 +67,14 @@ namespace OnionArchitecture.Persistence.Repositories
 
             return await Table.FindAsync(id);
         }
-        public async Task<int> SaveAsync() => await _context.SaveChangesAsync();
+        public async Task<ResultInfo> SaveAsync()
+        {
+            var result = new OperationResult();
+            return (short)await _context.SaveChangesAsync() > 0 ? 
+                ResultInfo.SaveSuccess :
+                ResultInfo.SaveFailure;
+        }
 
-       
+
     }
 }

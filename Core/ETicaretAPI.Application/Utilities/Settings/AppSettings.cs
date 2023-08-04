@@ -1,51 +1,57 @@
-﻿using Newtonsoft.Json;
-using OnionArchitecture.Application.Utilities.Settings;
+﻿using Microsoft.Extensions.Configuration;
+using OnionArchitecture.Application.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Core.Application.Utilities.Settings
+namespace OnionArchitecture.Application.Utilities.Settings
 {
-    public class AppSettings
+    public static class AppSettings
     {
-        private const string JsonFilePath = "..\\Core\\Application\\Utilities\\Settings\\settings.json";
-
-        private AppSettings()
+        private static IConfiguration _config;
+        public static void AppSettingsConfigure(IConfiguration config)
         {
-
+            _config = config ?? throw new ArgumentNullException(nameof(config));
         }
-        static AppSettings()
+        public static T GetSetting<T> (SettingOptions settingOption)
         {
-            ReloadSettings();
-        }
+            string sectionName = Enum.GetName(typeof(SettingOptions), settingOption);
 
-        //Settings.json faylındakı obyektlərin qarşılığı =>
-        public DbConnectionModel AppDbConnectionModel { get; set; }
-        public JwtConfiguration JwtConfiguration { get; set; }
-        public MailConfiguration MailConfiguration { get; set; }
+            var section = _config.GetSection(sectionName);
 
-
-
-        public static AppSettings Settings { get; private set; }
-
-
-        public static void ReloadSettings()
-        {
-            JsonSerializer serializer = new JsonSerializer();
-
-          
-            using (StreamReader sr = new StreamReader(JsonFilePath))
-            using (JsonReader reader = new JsonTextReader(sr))
+            if (section == null)
             {
-                while (reader.Read())
-                {
-                    if (reader.TokenType == JsonToken.StartObject)
-                    {
-                        Settings = serializer.Deserialize<AppSettings>(reader);
-                    }
-                }
+                throw new InvalidOperationException($"Configuration section '{sectionName}' not found.");
             }
+
+            var value = section.Get<T>();
+
+            if (value == null)
+            {
+                throw new InvalidOperationException($"Could not parse configuration section '{sectionName}' to target type '{typeof(T).FullName}'.");
+            }
+
+            return value;
+        } 
+        public static string GetSetting(SettingOptions settingOption, string key) 
+        {
+           
+            string sectionName = Enum.GetName(typeof(SettingOptions), settingOption);
+
+            if (sectionName == null)
+            {
+                throw new ArgumentException($"Provided setting option '{settingOption}' does not correspond to a known configuration section.");
+            }
+
+            var section = _config.GetSection(sectionName);
+
+            if (section == null)
+            {
+                throw new InvalidOperationException($"Configuration section '{sectionName}' not found.");
+            }
+            return section[key];
         }
-
-
-
-
     }
 }

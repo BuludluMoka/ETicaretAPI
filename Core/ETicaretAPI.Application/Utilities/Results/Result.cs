@@ -16,18 +16,14 @@
             ResultInfo = resultInfo;
         }
 
-        public Result(ResultInfo resultInfo)
-        : this(null, resultInfo)
+        public Result(ResultInfo resultInfo)  : this(null, resultInfo)
         {
 
         }
-    
 
-
-        public Result()
-            : this(ResultInfo.NotImplemented)
+        public Result() : this(ResultInfo.NotImplemented)
         {
-            
+
         }
 
         public int StatusCode { get; set; }
@@ -42,8 +38,7 @@
 
             set
             {
-                if (value != null 
-                    && ResultInfo == ResultInfo.NotImplemented)
+                if (value != null && ResultInfo == ResultInfo.NotImplemented)
                 {
                     ResultInfo = ResultInfo.Success;
                 }

@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
-using Core.Utilities.Exceptions;
+using OnionArchitecture.Application.Utilities.Exceptions;
 using OnionArchitecture.Application.Abstractions.Repositories;
 
 namespace Core.Utilities.Tools

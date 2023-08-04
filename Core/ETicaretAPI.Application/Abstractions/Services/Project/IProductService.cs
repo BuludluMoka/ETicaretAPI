@@ -9,10 +9,11 @@ namespace OnionArchitecture.Application.Abstractions.Services.Project
 {
     public interface IProductService
     {
-        Task CreateProductAsync(CreateProductDto createOrder);
-        Task<ProductDto> GetAllProductsAsync(int page, int size);
-        Task<ProductDto> GetProductByIdAsync(string id);
-        Task DeleteProductAsync(string id);
+        Task<ResultInfo> CreateProductAsync(CreateProductDto createProductDto);
+        Task<List<ProductDto>> GetAllProductsAsync();
+        Task<ProductDto> GetProductByIdAsync(int id);
+        Task<ResultInfo> UpdateProductAsync(UpdateProductDto updateProductDto);
+        Task<ResultInfo> DeleteProductAsync(int id);
     }
 }
 

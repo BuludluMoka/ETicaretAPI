@@ -3,22 +3,22 @@
 
 public class CurrentScopeDataContainer : IIdentity
 {
-    internal CurrentScopeDataContainer()
+    public CurrentScopeDataContainer()
     {
 
     }
 
-    public string RequestUrl { get; internal set; }
+    public string RequestUrl { get;  set; }
 
-    public int UserId { get; internal set; }
+    public int UserId { get;  set; }
 
-    public bool IsAuthenticated { get; internal set; }
+    public bool IsAuthenticated { get;  set; }
 
-    public string Name { get; internal set; }
+    public string Name { get;  set; }
 
-    public string Email { get; internal set; }
+    public string Email { get; set; }
 
-    public string Language { get; internal set; }
+    public string Language { get; set; }
 
     [Obsolete("AuthenticationType is not provided.")]
     public string AuthenticationType => string.Empty;

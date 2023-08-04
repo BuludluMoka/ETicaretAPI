@@ -5,10 +5,9 @@ using OnionArchitecture.Application.DTOs.FileUploads;
 public static class ApiControllerExtensions
 {
 
-    public static IActionResult AsObjectResult(
-        this Result result)
+    public static IActionResult AsObjectResult( this Result result)
     {
-        return new ObjectResult(ResultDataGenerator.Generate(result));
+        return new ObjectResult(new ResultDataGenerator().Generate(result));
     }
 
 
@@ -25,7 +24,7 @@ public static class ApiControllerExtensions
 
     public static IActionResult AsObjectResult(
         this ResultInfo resultInfo)
-        => new ObjectResult(ResultDataGenerator.Generate(resultInfo));
+        => new ObjectResult(new ResultDataGenerator().Generate(resultInfo));
 
 
     //private static IActionResult AsExcelFile(Result resultData, string pageName = null, string documentName = null)
@@ -33,7 +32,7 @@ public static class ApiControllerExtensions
     //    documentName = documentName ?? "Excel_" + DateTime.Now.ToString("yyyyMMddHHmmss");
     //    string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     //    //var byteArrayContent = new FileExporterTools().ExportDataToExcel(ResultDataGenerator.Generate(resultData).Data, pageName, documentName);
-      
+
     //    return new FileContentResult(byteArrayContent, contentType);
 
     //}
